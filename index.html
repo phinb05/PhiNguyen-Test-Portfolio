@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bang Phi Nguyen — Portfolio</title>
+  <title>Bang Phi Nguyen | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -167,6 +167,147 @@
       height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
     }
 
+    /* Experience steps */
+    .exp-step {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 1rem 1.25rem; border-radius: 14px; cursor: pointer;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      width: 100%; outline: none;
+    }
+    .exp-step:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+    .exp-step:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+    .exp-step:active { transform: translateY(0); }
+    .exp-step-active {
+      background: rgba(37,99,235,0.08) !important;
+      border-color: rgba(37,99,235,0.3) !important;
+      box-shadow: 0 0 24px rgba(37,99,235,0.1), inset 0 0 0 1px rgba(37,99,235,0.08);
+      border-left: 3px solid #2563eb !important;
+    }
+    .exp-step-active .exp-step-icon { background: rgba(37,99,235,0.2); border-color: rgba(37,99,235,0.4); color: #93c5fd; }
+    .exp-step-icon {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.35);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .exp-step-active .exp-step-icon-cyan { background: rgba(34,211,238,0.2) !important; border-color: rgba(34,211,238,0.4) !important; color: #67e8f9 !important; }
+    .exp-step-cyan.exp-step-active {
+      background: rgba(34,211,238,0.06) !important;
+      border-color: rgba(34,211,238,0.3) !important;
+      border-left: 3px solid #22d3ee !important;
+      box-shadow: 0 0 30px rgba(34,211,238,0.12), 0 0 60px rgba(34,211,238,0.04), inset 0 0 0 1px rgba(34,211,238,0.06);
+    }
+
+    /* Experience detail panel */
+    .exp-detail {
+      position: absolute; top: 0; left: 0; right: 0;
+      opacity: 0; transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.22,1,0.36,1), transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .exp-detail-active {
+      position: relative;
+      opacity: 1; transform: translateY(0);
+      pointer-events: auto;
+    }
+    .exp-step-label {
+      position: absolute; top: 12px; left: 12px; z-index: 2;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 0.3rem 0.7rem; border-radius: 8px;
+      background: rgba(37,99,235,0.12); color: #93c5fd;
+      border: 1px solid rgba(37,99,235,0.25);
+    }
+    .exp-detail-img {
+      position: relative; width: 100%; height: 220px; border-radius: 16px 16px 0 0;
+      background-size: cover; background-position: center;
+      overflow: hidden;
+    }
+    .exp-detail-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(3,2,19,0.9) 0%, rgba(37,99,235,0.05) 100%);
+    }
+    .exp-detail-body {
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+    }
+    .exp-stat-card {
+      padding: 0.75rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* Chips on active step */
+    .exp-step-tags {
+      display: none; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem;
+    }
+    .exp-step-active .exp-step-tags { display: flex; }
+    .exp-chip {
+      font-size: 0.65rem; font-weight: 500; padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(37,99,235,0.08); color: rgba(147,197,253,0.7);
+      border: 1px solid rgba(37,99,235,0.15);
+    }
+
+    /* Shift card spotlight */
+    .shift-card {
+      position: relative;
+      background: rgba(34,211,238,0.04);
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(34,211,238,0.08), 0 0 80px rgba(37,99,235,0.06);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+    }
+    .shift-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 50px rgba(34,211,238,0.12), 0 0 100px rgba(37,99,235,0.08);
+    }
+    .shift-card::before {
+      content: '';
+      position: absolute; inset: -1px; border-radius: 17px;
+      background: linear-gradient(135deg, rgba(34,211,238,0.3), rgba(37,99,235,0.2), rgba(34,211,238,0.1));
+      z-index: -1;
+      opacity: 0.6;
+      filter: blur(1px);
+    }
+    .shift-glow {
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 200px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(34,211,238,0.1) 0%, rgba(37,99,235,0.04) 40%, transparent 70%);
+      pointer-events: none; filter: blur(40px);
+    }
+
+    /* Shift node pulse */
+    @keyframes shiftPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(34,211,238,0.2), 0 0 60px rgba(34,211,238,0.05); }
+      50% { box-shadow: 0 0 30px rgba(34,211,238,0.35), 0 0 80px rgba(34,211,238,0.1); }
+    }
+    .tl-node-shift {
+      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(34,211,238,0.15); border: 2px solid rgba(34,211,238,0.5);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600; color: #67e8f9;
+      animation: shiftPulse 3s ease-in-out infinite;
+    }
+
+    /* Status badges */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500;
+      padding: 0.25rem 0.6rem; border-radius: 100px; letter-spacing: 0.04em;
+    }
+    .status-built { background: rgba(34,197,94,0.1); color: rgba(134,239,172,0.8); border: 1px solid rgba(34,197,94,0.2); }
+    .status-dev { background: rgba(34,211,238,0.1); color: rgba(103,232,249,0.8); border: 1px solid rgba(34,211,238,0.2); }
+    .status-proposed { background: rgba(37,99,235,0.1); color: rgba(147,197,253,0.8); border: 1px solid rgba(37,99,235,0.2); }
+
     /* Counter animate */
     @keyframes countPulse {
       0%, 100% { opacity: 0.6; }
@@ -201,17 +342,18 @@
     <div class="hero-glow" style="top:15%; left:50%; transform:translateX(-50%);"></div>
     <div class="hero-glow" style="top:40%; left:25%; width:400px; height:300px; background:radial-gradient(ellipse, rgba(34,211,238,0.08) 0%, transparent 70%);"></div>
     <div class="relative z-10 text-center max-w-4xl">
+      <div>
       <div class="reveal">
         <p class="section-label mb-5" style="color:rgba(147,197,253,0.6);">Business Strategy × AI Automation</p>
       </div>
       <div class="reveal reveal-d1">
         <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-8">
-          <span class="glow-text">From business<br>to automation</span>
+          <span class="glow-text">Systems thinking<br>meets automation.</span>
         </h1>
       </div>
       <div class="reveal reveal-d2">
         <p class="text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10" style="color:rgba(255,255,255,0.5); line-height:1.7;">
-          I bridge the gap between business operations and intelligent automation — combining strategic thinking with AI-powered workflows to solve real problems at scale.
+          I find the broken process, understand the human pain, and build the workflow that fixes it.
         </p>
       </div>
       <div class="reveal reveal-d3 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -223,6 +365,7 @@
           Learn more
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v10M2 7l5 5 5-5"/></svg>
         </a>
+      </div>
       </div>
     </div>
 
@@ -238,8 +381,8 @@
   <section class="relative py-20 md:py-28 px-6" style="background:#030213;">
     <div class="max-w-5xl mx-auto">
       <div class="reveal text-center mb-14">
-        <p class="section-label mb-3">My journey in numbers</p>
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight glow-text">Key milestones so far</h2>
+        <p class="section-label mb-3">The proof</p>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight glow-text">What I built before the shift</h2>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="stat-card reveal reveal-d1 text-center">
@@ -272,6 +415,10 @@
   </section>
 
   <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="text-center py-10">
+    <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">The story behind the stats</p>
+    <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
+  </div>
 
   <!-- ====== ABOUT ====== -->
   <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="about">
@@ -286,17 +433,17 @@
           </div>
           <div class="reveal reveal-d1">
             <p class="text-base md:text-lg font-light leading-[1.8] mt-6" style="color:rgba(255,255,255,0.55);">
-              I'm a Business Administration student at <strong class="font-medium text-white">VinUniversity</strong> (80% Merit Scholarship), currently on exchange at <strong class="font-medium text-white">EBS Business School</strong> in Wiesbaden, Germany.
+              In high school I was the kid cold-calling companies for venue sponsorships. At <strong class="font-medium text-white">VinUniversity</strong>, I turned that into <strong class="font-medium text-white">$29K raised</strong> across 25+ corporate partners. At <strong class="font-medium text-white">Stavian</strong>, I built lead databases for European expansion. The work changed, but the pattern didn't: behind every team doing good work, there was a broken system slowing them down.
             </p>
           </div>
           <div class="reveal reveal-d2">
             <p class="text-base md:text-lg font-light leading-[1.8] mt-4" style="color:rgba(255,255,255,0.55);">
-              My journey started in traditional business — market research, corporate partnerships, international trade. But I've pivoted toward <strong class="font-medium text-white">AI-powered business automation</strong>, building workflows that bridge strategic thinking with scalable systems.
+              An exchange semester in <strong class="font-medium text-white">Germany</strong> taught me something the spreadsheets never could. I watched people work efficiently, leave on time, and still outperform. It wasn't about doing more. It was about making sure the right person does the right thing. That question, <em>"What is actually worth my 100%?"</em>, led me to <strong class="font-medium text-white">automation</strong>.
             </p>
           </div>
           <div class="reveal reveal-d3 mt-6">
             <p class="text-sm font-mono pl-4" style="color:rgba(147,197,253,0.5); border-left:2px solid rgba(37,99,235,0.3);">
-              "The business mind didn't disappear — it found better tools."
+              "What would have been possible if I'd known this sooner?"
             </p>
           </div>
         </div>
@@ -310,7 +457,7 @@
               <div>
                 <p class="text-sm font-semibold text-white">VinUniversity</p>
                 <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">B.A. Business Administration • 80% Merit Scholarship</p>
-                <p class="text-xs font-mono mt-1" style="color:rgba(147,197,253,0.4);">2023 — 2027</p>
+                <p class="text-xs font-mono mt-1" style="color:rgba(147,197,253,0.4);">2023 - 2027</p>
               </div>
               <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
               <div>
@@ -321,7 +468,7 @@
               <div style="height:1px;background:rgba(255,255,255,0.06);"></div>
               <div>
                 <p class="text-sm font-semibold text-white">IBD@NEU</p>
-                <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">Salutatorian — Cohort 19</p>
+                <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">Salutatorian, Cohort 19</p>
                 <p class="text-xs font-mono mt-1" style="color:rgba(147,197,253,0.4);">2023</p>
               </div>
             </div>
@@ -332,6 +479,10 @@
   </section>
 
   <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="text-center py-10">
+    <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">From pattern to process</p>
+    <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
+  </div>
 
   <!-- ====== EXPERIENCE JOURNEY ====== -->
   <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="experience">
@@ -339,101 +490,192 @@
       <div class="reveal text-center mb-16">
         <p class="section-label mb-3">Experience</p>
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight">
-          The <span class="glow-text-sm">Journey</span>
+          How I <span class="glow-text-sm">got here</span>
         </h2>
-        <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">A structured journey from business operations to AI automation</p>
+        <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">Every role taught me something. Each one led to the next.</p>
       </div>
 
-      <!-- Timeline -->
-      <div class="max-w-3xl mx-auto space-y-0">
+      <!-- Interactive Steps -->
+      <div class="grid md:grid-cols-2 gap-8 items-start reveal">
 
-        <!-- Node 1 -->
-        <div class="flex items-start gap-6 reveal">
-          <div class="flex flex-col items-center">
-            <div class="tl-node" data-dot>01</div>
-            <div class="tl-line" style="height:100%; min-height:120px;"></div>
-          </div>
-          <div class="flex-1 pb-10">
-            <div class="glass-card p-6">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="text-base font-semibold text-white">Vietnam Management Consulting</h3>
-                  <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">Research Analyst</p>
-                </div>
-                <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.4);">2023</span>
-              </div>
-              <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5);">
-                Conducted market research on dairy production across Southeast Asia. Findings reached <strong class="font-medium text-white">8,000+ readers</strong> and were featured by IVG's Outlook on ASEAN.
-              </p>
+        <!-- Left: Step selectors -->
+        <div class="flex flex-col gap-3">
+          <button class="exp-step exp-step-active" data-step="0" onclick="selectStep(0)">
+            <div class="exp-step-icon">
+              <span class="font-mono text-sm font-semibold">1</span>
             </div>
-          </div>
+            <div class="flex-1 text-left">
+              <p class="text-sm font-semibold text-white">The Foundation</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">Research Analyst, VMC</p>
+              <div class="exp-step-tags">
+                <span class="exp-chip">Market research</span>
+                <span class="exp-chip">8K+ readers</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2023</span>
+          </button>
+
+          <button class="exp-step" data-step="1" onclick="selectStep(1)">
+            <div class="exp-step-icon">
+              <span class="font-mono text-sm font-semibold">2</span>
+            </div>
+            <div class="flex-1 text-left">
+              <p class="text-sm font-semibold text-white">The Pattern</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">Head of Corporate Partnership, VBI</p>
+              <div class="exp-step-tags">
+                <span class="exp-chip">$29K raised</span>
+                <span class="exp-chip">25+ partners</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2023–24</span>
+          </button>
+
+          <button class="exp-step" data-step="2" onclick="selectStep(2)">
+            <div class="exp-step-icon">
+              <span class="font-mono text-sm font-semibold">3</span>
+            </div>
+            <div class="flex-1 text-left">
+              <p class="text-sm font-semibold text-white">The Catalyst</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">International Business Intern, Stavian</p>
+              <div class="exp-step-tags">
+                <span class="exp-chip">300+ B2B leads</span>
+                <span class="exp-chip">EU expansion</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2025</span>
+          </button>
+
+          <button class="exp-step exp-step-cyan" data-step="3" onclick="selectStep(3)">
+            <div class="exp-step-icon exp-step-icon-cyan">
+              <span class="font-mono text-sm font-semibold">4</span>
+            </div>
+            <div class="flex-1 text-left">
+              <p class="text-sm font-semibold text-white flex items-center gap-2">The Build <span class="status-badge status-dev" style="font-size:0.6rem;padding:0.15rem 0.5rem;">Now</span></p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">AI Automation Projects</p>
+              <div class="exp-step-tags">
+                <span class="exp-chip" style="background:rgba(34,211,238,0.08);color:rgba(103,232,249,0.7);border-color:rgba(34,211,238,0.15);">n8n</span>
+                <span class="exp-chip" style="background:rgba(34,211,238,0.08);color:rgba(103,232,249,0.7);border-color:rgba(34,211,238,0.15);">AI/ML</span>
+              </div>
+            </div>
+            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(34,211,238,0.4);">2025–Now</span>
+          </button>
         </div>
 
-        <!-- Node 2 -->
-        <div class="flex items-start gap-6 reveal reveal-d1">
-          <div class="flex flex-col items-center">
-            <div class="tl-node" data-dot>02</div>
-            <div class="tl-line" style="height:100%; min-height:120px;"></div>
-          </div>
-          <div class="flex-1 pb-10">
-            <div class="glass-card p-6">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="text-base font-semibold text-white">VinUniversity Business Insider</h3>
-                  <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">Head of Corporate Partnership</p>
+        <!-- Right: Detail panel -->
+        <div class="relative">
+          <!-- Step 0 detail -->
+          <div class="exp-detail exp-detail-active" data-detail="0">
+            <div class="exp-step-label">Step 1 of 4</div>
+            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=VMC+Research');">
+              <div class="exp-detail-img-overlay"></div>
+            </div>
+            <div class="exp-detail-body">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
+                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
                 </div>
-                <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.4);">2023–2024</span>
+                <h3 class="text-base font-bold text-white">Vietnam Management Consulting</h3>
               </div>
-              <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5);">
-                Led a team of 5, negotiated with <strong class="font-medium text-white">25+ corporate partners</strong>, and cold-called my way to <strong class="font-medium text-white">$29,000 in sponsorships</strong> — 40% above target.
+              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
+                Conducted market research on dairy production across Southeast Asia. Findings reached <strong class="font-medium text-white">8,000+ readers</strong> and were featured by IVG's Outlook on ASEAN. This was where I first learned to see systems, not just tasks.
               </p>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">8K+</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Readers reached</p>
+                </div>
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">SEA</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Regional coverage</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Node 3 -->
-        <div class="flex items-start gap-6 reveal reveal-d2">
-          <div class="flex flex-col items-center">
-            <div class="tl-node" data-dot>03</div>
-            <div class="tl-line" style="height:100%; min-height:120px;"></div>
-          </div>
-          <div class="flex-1 pb-10">
-            <div class="glass-card p-6">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="text-base font-semibold text-white">Stavian Industrial Manufacturing</h3>
-                  <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.45);">International Business Intern</p>
+          <!-- Step 1 detail -->
+          <div class="exp-detail" data-detail="1">
+            <div class="exp-step-label">Step 2 of 4</div>
+            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=VBI+Partnership');">
+              <div class="exp-detail-img-overlay"></div>
+            </div>
+            <div class="exp-detail-body">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
+                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
                 </div>
-                <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.4);">2025</span>
+                <h3 class="text-base font-bold text-white">VinUniversity Business Insider</h3>
               </div>
-              <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.5);">
-                Built a database of <strong class="font-medium text-white">300+ qualified B2B customers</strong> for expansion across Europe and the Middle East. Analyzed the German packaging market for a top-3 PE manufacturer in Vietnam.
+              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
+                Led a team of 5 and cold-called my way to <strong class="font-medium text-white">$29,000 in sponsorships</strong>, 40% above target. Tracked every partnership by hand. Spreadsheets. Follow-up reminders. Fragmented processes. The results were strong. The system behind them was not.
               </p>
+              <div class="grid grid-cols-3 gap-3">
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">$29K</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Raised</p>
+                </div>
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">25+</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Partners</p>
+                </div>
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">140%</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Of target</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Node 4 — The Shift -->
-        <div class="flex items-start gap-6 reveal reveal-d3">
-          <div class="flex flex-col items-center">
-            <div class="tl-node" data-dot style="border-color:rgba(34,211,238,0.4);background:rgba(34,211,238,0.1);color:#67e8f9;">04</div>
-          </div>
-          <div class="flex-1 pb-4">
-            <div class="glass-card p-6" style="border-color:rgba(34,211,238,0.12);">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="text-base font-semibold text-white">AI Automation Projects</h3>
-                  <p class="text-xs mt-0.5" style="color:rgba(34,211,238,0.6);">The Shift — Business × AI</p>
+          <!-- Step 2 detail -->
+          <div class="exp-detail" data-detail="2">
+            <div class="exp-step-label">Step 3 of 4</div>
+            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=Stavian+Manufacturing');">
+              <div class="exp-detail-img-overlay"></div>
+            </div>
+            <div class="exp-detail-body">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
+                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
                 </div>
-                <span class="text-xs font-mono flex-shrink-0" style="color:rgba(34,211,238,0.4);">Oct 2025–Now</span>
+                <h3 class="text-base font-bold text-white">Stavian Industrial Manufacturing</h3>
               </div>
-              <p class="text-sm font-light leading-relaxed mb-4" style="color:rgba(255,255,255,0.5);">
-                Using <strong class="font-medium text-white">n8n</strong> as the automation backbone, building workflows that solve the same business problems I used to solve manually.
+              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
+                Built a database of <strong class="font-medium text-white">300+ qualified B2B customers</strong> for European and Middle Eastern expansion. On my first day, I watched a salesman copy lead data row by row for three hours. Not because he was bad at his job. Because the system was.
+              </p>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">300+</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">B2B leads built</p>
+                </div>
+                <div class="exp-stat-card">
+                  <p class="text-lg font-bold text-white">2</p>
+                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Regions targeted</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 detail (The Build - cyan accent, spotlight) -->
+          <div class="exp-detail" data-detail="3" style="position:relative;">
+            <div class="exp-step-label" style="background:rgba(34,211,238,0.12);color:#67e8f9;border-color:rgba(34,211,238,0.25);">Step 4 of 4</div>
+            <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:300px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,211,238,0.1) 0%,transparent 70%);filter:blur(40px);pointer-events:none;z-index:0;"></div>
+            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a1a2e/134e5f?text=AI+Automation');border:1px solid rgba(34,211,238,0.15);border-bottom:none;position:relative;z-index:1;">
+              <div class="exp-detail-img-overlay" style="background:linear-gradient(to top, rgba(3,2,19,0.9) 0%, rgba(34,211,238,0.05) 100%);"></div>
+            </div>
+            <div class="exp-detail-body" style="border-color:rgba(34,211,238,0.15);position:relative;z-index:1;">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(34,211,238,0.15);border:1px solid rgba(34,211,238,0.25);">
+                  <svg width="14" height="14" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
+                </div>
+                <h3 class="text-base font-bold text-white">AI Automation Projects</h3>
+                <span class="status-badge status-dev" style="font-size:0.6rem;margin-left:auto;">Now</span>
+              </div>
+              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
+                A mentor introduced me to <strong class="font-medium text-white">n8n</strong>. Suddenly every experience reorganized itself around one question: what if I'd known this sooner? I started building: email classifiers, chatbots, a full lead gen system with deduplication logic. My edge isn't writing code. It's understanding the problem clearly enough to direct AI to write it for me.
               </p>
               <div class="flex flex-wrap gap-2">
-                <span class="skill-tag skill-tag-cyan">Email Classifier</span>
-                <span class="skill-tag skill-tag-cyan">RAG Chatbot</span>
-                <span class="skill-tag skill-tag-cyan">B2B Lead Gen</span>
+                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">Email Classifier</span>
+                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">RAG Chatbot</span>
+                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">B2B Lead Gen</span>
               </div>
             </div>
           </div>
@@ -444,6 +686,10 @@
   </section>
 
   <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="text-center py-10">
+    <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">What I built with it</p>
+    <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
+  </div>
 
   <!-- ====== AI PROJECTS ====== -->
   <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="projects">
@@ -454,37 +700,70 @@
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight">
           <span class="glow-text">AI Automation</span> Projects
         </h2>
-        <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">Intelligent workflows that bridge business operations and technology</p>
+        <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">Systems that run, problems that get solved, people freed to do what they were meant to do.</p>
       </div>
       <div class="grid md:grid-cols-3 gap-5">
         <div class="glass-card p-6 reveal reveal-d1">
-          <div class="flex items-center justify-center w-12 h-12 rounded-xl mb-5" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
-            <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="18" height="14" rx="3"/><path d="M2 8l9 5 9-5"/></svg>
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
+              <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="18" height="14" rx="3"/><path d="M2 8l9 5 9-5"/></svg>
+            </div>
+            <span class="status-badge status-built">Built</span>
           </div>
           <h3 class="text-base font-semibold text-white mb-2">Email Classifier</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Automated email triage and routing using AI classification — categorizes, prioritizes, and routes incoming messages.</p>
+          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Every business I've worked with drowns in email. This system classifies, prioritizes, and routes messages automatically. Saves someone an hour a day.</p>
+          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
+            <p class="text-xs font-medium mb-2" style="color:rgba(147,197,253,0.5);">How it works</p>
+            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
+              <li>Incoming emails parsed via n8n webhook trigger</li>
+              <li>AI model classifies by urgency and category</li>
+              <li>Auto-routes to correct folder or team member</li>
+            </ul>
+          </div>
           <div class="flex flex-wrap gap-1.5 mt-4">
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">n8n</span>
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">AI/ML</span>
           </div>
         </div>
         <div class="glass-card p-6 reveal reveal-d2">
-          <div class="flex items-center justify-center w-12 h-12 rounded-xl mb-5" style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.15);">
-            <svg width="22" height="22" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="9"/><path d="M11 7v4l3 2"/><path d="M7 15l-2 3M15 15l2 3"/></svg>
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.15);">
+              <svg width="22" height="22" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="9"/><path d="M11 7v4l3 2"/><path d="M7 15l-2 3M15 15l2 3"/></svg>
+            </div>
+            <span class="status-badge status-dev">In Development</span>
           </div>
           <h3 class="text-base font-semibold text-white mb-2">RAG Customer Support</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Retrieval-augmented generation chatbot for intelligent, context-aware customer responses. Scoping for an English language center.</p>
+          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Scoping for an English language center in Vietnam. A retrieval-augmented chatbot that understands business context. Real answers from real documentation.</p>
+          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
+            <p class="text-xs font-medium mb-2" style="color:rgba(103,232,249,0.5);">How it works</p>
+            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
+              <li>Business docs chunked and embedded into vector store</li>
+              <li>User queries matched to relevant context via RAG</li>
+              <li>LLM generates grounded answers with source citations</li>
+            </ul>
+          </div>
           <div class="flex flex-wrap gap-1.5 mt-4">
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(34,211,238,0.1);color:rgba(103,232,249,0.6);">RAG</span>
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(34,211,238,0.1);color:rgba(103,232,249,0.6);">LLM</span>
           </div>
         </div>
         <div class="glass-card p-6 reveal reveal-d3">
-          <div class="flex items-center justify-center w-12 h-12 rounded-xl mb-5" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
-            <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h14v14H4z"/><path d="M9 4v14M4 9h14"/></svg>
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
+              <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h14v14H4z"/><path d="M9 4v14M4 9h14"/></svg>
+            </div>
+            <span class="status-badge status-proposed">Proposed</span>
           </div>
           <h3 class="text-base font-semibold text-white mb-2">B2B Lead Generation</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Multi-state deduplication logic for automated lead sourcing. Proposed to Sales Manager & Director at Stavian — in active evaluation.</p>
+          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Automates multi-state lead sourcing with deduplication logic, replacing 3+ hours of manual data entry per session. Built for a plastics manufacturer expanding into Europe and the Middle East.</p>
+          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
+            <p class="text-xs font-medium mb-2" style="color:rgba(147,197,253,0.5);">How it works</p>
+            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
+              <li>Scrapes leads from multiple online sources automatically</li>
+              <li>Multi-state deduplication filters out existing contacts</li>
+              <li>Qualified leads pushed to CRM with enriched data</li>
+            </ul>
+          </div>
           <div class="flex flex-wrap gap-1.5 mt-4">
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">n8n</span>
             <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">Automation</span>
@@ -502,7 +781,7 @@
       <div class="reveal text-center mb-14">
         <p class="section-label mb-3">Capabilities</p>
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-          Targeted <span class="glow-text-sm">Skills & Tools</span>
+          The <span class="glow-text-sm">Toolkit</span>
         </h2>
       </div>
       <div class="flex flex-wrap justify-center gap-3 reveal reveal-d1 mb-14">
@@ -522,9 +801,9 @@
         <p class="text-sm" style="color:rgba(255,255,255,0.35);">Languages</p>
       </div>
       <div class="flex flex-wrap justify-center gap-3 reveal reveal-d3 mb-16">
-        <span class="skill-tag">English — IELTS 8.0</span>
-        <span class="skill-tag">German — A1.2</span>
-        <span class="skill-tag">Vietnamese — Native</span>
+        <span class="skill-tag">English: IELTS 8.0</span>
+        <span class="skill-tag">German: A1.2</span>
+        <span class="skill-tag">Vietnamese: Native</span>
       </div>
 
       <!-- Awards -->
@@ -567,6 +846,42 @@
 
   <div class="section-divider max-w-5xl mx-auto"></div>
 
+  <!-- ====== SOCIAL PROOF ====== -->
+  <section class="relative py-20 md:py-24 px-6" style="background:#030213;">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal text-center mb-12">
+        <p class="section-label mb-3">What others say</p>
+        <h3 class="text-2xl md:text-3xl font-bold tracking-tight glow-text-sm">Testimonials</h3>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <!-- TESTIMONIAL 1 - Replace placeholder quote, name, and role with real ones -->
+        <div class="glass-card p-6 reveal reveal-d1">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="mb-4" style="opacity:0.2;">
+            <path d="M10 8c-1.1 0-2 .9-2 2v4h4v-4H9c0-1.1.9-2 2-2V6c-2.2 0-4 1.8-4 4v6h6V10c0-1.1-.9-2-2-2zm8 0c-1.1 0-2 .9-2 2v4h4v-4h-3c0-1.1.9-2 2-2V6c-2.2 0-4 1.8-4 4v6h6V10c0-1.1-.9-2-2-2z" fill="#93c5fd"/>
+          </svg>
+          <p class="text-sm font-light italic leading-relaxed mb-5" style="color:rgba(255,255,255,0.5);">"Phi has a rare ability to see the bigger picture while still caring about the small details. He doesn't just do the work. He questions why the work is done that way in the first place."</p>
+          <div>
+            <p class="text-sm font-semibold text-white">Name Here</p>
+            <p class="text-xs" style="color:rgba(255,255,255,0.35);">Role, Company</p>
+          </div>
+        </div>
+        <!-- TESTIMONIAL 2 - Replace placeholder quote, name, and role with real ones -->
+        <div class="glass-card p-6 reveal reveal-d2">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="mb-4" style="opacity:0.2;">
+            <path d="M10 8c-1.1 0-2 .9-2 2v4h4v-4H9c0-1.1.9-2 2-2V6c-2.2 0-4 1.8-4 4v6h6V10c0-1.1-.9-2-2-2zm8 0c-1.1 0-2 .9-2 2v4h4v-4h-3c0-1.1.9-2 2-2V6c-2.2 0-4 1.8-4 4v6h6V10c0-1.1-.9-2-2-2z" fill="#93c5fd"/>
+          </svg>
+          <p class="text-sm font-light italic leading-relaxed mb-5" style="color:rgba(255,255,255,0.5);">"What impressed me most was how quickly he connected business problems to technical solutions. He brought an automation proposal to our team within his first week."</p>
+          <div>
+            <p class="text-sm font-semibold text-white">Name Here</p>
+            <p class="text-xs" style="color:rgba(255,255,255,0.35);">Role, Company</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-5xl mx-auto"></div>
+
   <!-- ====== CTA / CONTACT ====== -->
   <section class="relative py-28 md:py-36 px-6" style="background:#030213;" id="contact">
     <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 80%, rgba(37,99,235,0.06) 0%, transparent 60%);"></div>
@@ -574,12 +889,12 @@
       <div class="reveal">
         <p class="section-label mb-4">What's next</p>
         <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-          Not just skills, but a <span class="glow-text-sm">shift</span> in how<br>business gets done
+          I translate between the person who <span class="glow-text-sm">feels the pain</span> and the system that can <span class="glow-text-sm">relieve it.</span>
         </h2>
       </div>
       <div class="reveal reveal-d1">
         <p class="text-lg font-light max-w-lg mx-auto mb-10" style="color:rgba(255,255,255,0.4); line-height:1.7;">
-          I'm looking for opportunities where business thinking meets AI automation. If that sounds interesting — let's talk.
+          Efficiency isn't about doing more. It's about making sure the right person is doing the right thing. If you have a process held together by willpower and spreadsheets, let's talk.
         </p>
       </div>
       <div class="reveal reveal-d2 flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
@@ -593,7 +908,7 @@
         </a>
       </div>
       <div class="reveal reveal-d3">
-        <p class="font-mono text-xs" style="color:rgba(255,255,255,0.2);">(+84) 852 605 309 · Hanoi, Vietnam</p>
+        <p class="font-mono text-xs" style="color:rgba(255,255,255,0.2);">Hanoi, Vietnam</p>
       </div>
     </div>
     <div class="absolute bottom-6 left-0 right-0 text-center">
@@ -616,6 +931,23 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
     document.querySelectorAll('.reveal, [data-dot]').forEach(el => obs.observe(el));
+
+    // Experience step selector
+    function selectStep(idx) {
+      document.querySelectorAll('.exp-step').forEach(s => s.classList.remove('exp-step-active'));
+      document.querySelectorAll('.exp-detail').forEach(d => {
+        d.classList.remove('exp-detail-active');
+        d.style.position = 'absolute';
+      });
+      const step = document.querySelector('[data-step="' + idx + '"]');
+      const detail = document.querySelector('[data-detail="' + idx + '"]');
+      if (step) step.classList.add('exp-step-active');
+      if (detail) {
+        detail.style.position = 'relative';
+        detail.classList.add('exp-detail-active');
+      }
+    }
+
   </script>
 </body>
 </html>
