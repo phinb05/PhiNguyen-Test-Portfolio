@@ -18,9 +18,9 @@
           },
           colors: {
             pxv: {
-              dark: '#030213',
-              darker: '#010111',
-              card: '#0a0a1f',
+              dark: '#1a1e3a',
+              darker: '#151930',
+              card: '#1f2342',
               border: 'rgba(255,255,255,0.08)',
               blue: '#2563eb',
               cyan: '#22d3ee',
@@ -34,7 +34,18 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #030213; color: #e2e8f0; font-family: 'Inter Tight', system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { margin: 0; background: #1a1e3a; color: #e2e8f0; font-family: 'Inter Tight', system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* Noise grain overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+    }
 
     /* Scrollbar hide */
     ::-webkit-scrollbar { display: none; }
@@ -67,6 +78,18 @@
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       background: rgba(3,2,19,0.7);
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.35s ease, border-color 0.35s ease;
+    }
+    .nav-bar.nav-scrolled {
+      background: rgba(3,2,19,0.92);
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+    .nav-bar .nav-inner {
+      transition: height 0.3s cubic-bezier(0.22,1,0.36,1);
+      height: 3.5rem;
+    }
+    .nav-bar.nav-scrolled .nav-inner {
+      height: 2.85rem;
     }
     .nav-link {
       font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.55);
@@ -162,12 +185,67 @@
       filter: blur(80px); pointer-events: none;
     }
 
+    /* Hero glow drift */
+    @keyframes heroDrift1 {
+      0%, 100% { transform: translateX(-50%) translate(0, 0); }
+      25%      { transform: translateX(-50%) translate(18px, -12px); }
+      50%      { transform: translateX(-50%) translate(-12px, 15px); }
+      75%      { transform: translateX(-50%) translate(10px, -8px); }
+    }
+    @keyframes heroDrift2 {
+      0%, 100% { transform: translate(0, 0); }
+      30%      { transform: translate(-15px, 10px); }
+      60%      { transform: translate(12px, -14px); }
+      85%      { transform: translate(-8px, 6px); }
+    }
+
     /* Horizontal rule */
     .section-divider {
       height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent);
+      transform: scaleX(0.08); transform-origin: center;
+      opacity: 0;
+      transition: transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s cubic-bezier(0.22,1,0.36,1);
+    }
+    .section-divider.visible {
+      transform: scaleX(1);
+      opacity: 1;
     }
 
-    /* Experience steps */
+    /* Timeline experience cards */
+    .tl-card {
+      position: relative;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .tl-card:hover { transform: translateY(-3px); border-color: rgba(37,99,235,0.25); box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 0 30px rgba(37,99,235,0.06); }
+    .tl-card-cyan { border-color: rgba(34,211,238,0.15); }
+    .tl-card-cyan:hover { border-color: rgba(34,211,238,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 0 30px rgba(34,211,238,0.08); }
+    .tl-card-metric {
+      font-size: 1.6rem; font-weight: 800; line-height: 1;
+    }
+    .tl-card-metric-label {
+      font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 2px;
+    }
+    .tl-connector {
+      position: absolute; left: 11px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, rgba(37,99,235,0.25), rgba(37,99,235,0.05));
+    }
+    .tl-dot {
+      position: absolute; left: 4px; top: 20px; width: 16px; height: 16px;
+      border-radius: 50%; z-index: 3;
+      background: rgba(37,99,235,0.15); border: 2px solid rgba(37,99,235,0.4);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tl-dot-inner {
+      width: 6px; height: 6px; border-radius: 50%; background: #93c5fd;
+    }
+    .tl-dot-cyan { background: rgba(34,211,238,0.15); border-color: rgba(34,211,238,0.5); }
+    .tl-dot-cyan .tl-dot-inner { background: #67e8f9; }
+
+    /* Legacy exp-step styles kept for compatibility */
     .exp-step {
       display: flex; align-items: center; gap: 0.85rem;
       padding: 1rem 1.25rem; border-radius: 14px; cursor: pointer;
@@ -228,7 +306,7 @@
     }
     .exp-detail-img-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(3,2,19,0.9) 0%, rgba(37,99,235,0.05) 100%);
+      background: linear-gradient(to top, rgba(26,30,58,0.92) 0%, rgba(37,99,235,0.05) 100%);
     }
     .exp-detail-body {
       padding: 1.5rem;
@@ -313,13 +391,207 @@
       0%, 100% { opacity: 0.6; }
       50% { opacity: 1; }
     }
+
+    /* Scroll indicator traveling dot */
+    @keyframes scrollDot {
+      0%   { transform: translateY(0); opacity: 0.8; }
+      60%  { transform: translateY(14px); opacity: 0.15; }
+      61%  { transform: translateY(0); opacity: 0; }
+      100% { transform: translateY(0); opacity: 0.8; }
+    }
+
+    /* ===== CASE STUDY CARDS ===== */
+    .case-study-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .case-study-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(37,99,235,0.06);
+    }
+
+    /* Hero visual area */
+    .case-hero {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      background: rgba(26,30,58,0.8);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .case-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,30,58,0.95) 0%, rgba(26,30,58,0.15) 35%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .case-hero-title {
+      position: absolute; bottom: 16px; left: 20px; z-index: 3;
+    }
+
+    /* Demo screenshot container */
+    .demo-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .demo-screenshot {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .demo-play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.35s cubic-bezier(0.22,1,0.36,1);
+      background: rgba(26,30,58,0.6);
+      z-index: 2;
+      cursor: pointer;
+    }
+    .case-hero:hover .demo-play-overlay {
+      opacity: 1;
+    }
+    .demo-play-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(37,99,235,0.25);
+      border: 1.5px solid rgba(147,197,253,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #93c5fd;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.3s ease;
+      box-shadow: 0 0 30px rgba(37,99,235,0.2);
+    }
+    .demo-play-btn:hover {
+      transform: scale(1.1);
+      background: rgba(37,99,235,0.4);
+    }
+    .demo-play-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: rgba(147,197,253,0.7);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Case study body: Pain / Build / Result */
+    .case-body {
+      padding: 24px;
+    }
+    .case-phases {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 640px) {
+      .case-phases { grid-template-columns: 1fr; }
+      .case-hero { height: 200px; }
+      .flow-node { font-size: 0.55rem; padding: 6px 8px; }
+      .flow-node-icon { width: 22px; height: 22px; margin-bottom: 4px; }
+      .flow-arrow { padding: 0 2px; }
+    }
+    .case-phase {
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      opacity: 0.8;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s ease;
+    }
+    .case-study-card:hover .case-phase { transform: translateY(-3px); opacity: 1; }
+    .case-study-card:hover .case-phase:nth-child(1) { transition-delay: 0s; }
+    .case-study-card:hover .case-phase:nth-child(2) { transition-delay: 0.08s; }
+    .case-study-card:hover .case-phase:nth-child(3) { transition-delay: 0.12s; }
+    .case-phase-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .case-phase-text {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Result metric highlight */
+    .result-metric {
+      font-size: 1.8rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .result-metric-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* Flow glow backdrop */
+    .flow-glow {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Experience progress connector - removed, border-left on active step handles this */
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 90;
+      width: 42px; height: 42px; border-radius: 12px;
+      background: rgba(37,99,235,0.15); border: 1px solid rgba(37,99,235,0.25);
+      color: #93c5fd; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(12px); pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, border-color 0.25s ease;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .back-to-top:hover { background: rgba(37,99,235,0.25); border-color: rgba(37,99,235,0.4); transform: translateY(-2px) !important; }
+    .back-to-top:focus-visible { outline: 2px solid #93c5fd; outline-offset: 3px; }
+    .back-to-top:active { transform: translateY(0) !important; }
+
+    /* Stat icon */
+    .stat-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.15);
+    }
   </style>
 </head>
 <body>
 
   <!-- ====== NAV ====== -->
   <nav class="nav-bar">
-    <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+    <div class="nav-inner max-w-6xl mx-auto px-6 flex items-center justify-between">
       <a href="#" class="flex items-center gap-2 text-white font-bold text-sm tracking-tight" style="text-decoration:none;">
         <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#22d3ee);display:flex;align-items:center;justify-content:center;">
           <span style="font-size:0.75rem;font-weight:800;color:#fff;">BN</span>
@@ -338,9 +610,9 @@
   </nav>
 
   <!-- ====== HERO ====== -->
-  <section class="relative min-h-screen flex flex-col justify-center items-center px-6 pt-14" style="background:#030213;">
-    <div class="hero-glow" style="top:15%; left:50%; transform:translateX(-50%);"></div>
-    <div class="hero-glow" style="top:40%; left:25%; width:400px; height:300px; background:radial-gradient(ellipse, rgba(34,211,238,0.08) 0%, transparent 70%);"></div>
+  <section class="relative min-h-screen flex flex-col justify-center items-center px-6 pt-14" style="background: #1a1e3a; background-image: radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(34,211,238,0.06) 0%, transparent 45%), radial-gradient(ellipse at 50% 80%, rgba(99,102,241,0.05) 0%, transparent 50%);">
+    <div class="hero-glow" style="top:15%; left:50%; transform:translateX(-50%); animation: heroDrift1 20s ease-in-out infinite;"></div>
+    <div class="hero-glow" style="top:40%; left:25%; width:400px; height:300px; background:radial-gradient(ellipse, rgba(34,211,238,0.08) 0%, transparent 70%); animation: heroDrift2 25s ease-in-out infinite;"></div>
     <div class="relative z-10 text-center max-w-4xl">
       <div>
       <div class="reveal">
@@ -372,13 +644,13 @@
     <!-- Scroll indicator -->
     <div class="absolute bottom-10 left-1/2 -translate-x-1/2 reveal reveal-d5">
       <div style="width:24px;height:38px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.15);display:flex;justify-content:center;padding-top:8px;">
-        <div style="width:3px;height:8px;border-radius:2px;background:rgba(147,197,253,0.5);animation:countPulse 2s infinite;"></div>
+        <div style="width:3px;height:8px;border-radius:2px;background:rgba(147,197,253,0.5);animation:scrollDot 2.5s cubic-bezier(0.22,1,0.36,1) infinite;"></div>
       </div>
     </div>
   </section>
 
   <!-- ====== IMPACT STATS ====== -->
-  <section class="relative py-20 md:py-28 px-6" style="background:#030213;">
+  <section class="relative py-20 md:py-28 px-6" style="background:#1a1e3a;">
     <div class="max-w-5xl mx-auto">
       <div class="reveal text-center mb-14">
         <p class="section-label mb-3">The proof</p>
@@ -386,26 +658,41 @@
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div class="stat-card reveal reveal-d1 text-center">
-          <p class="text-3xl md:text-4xl font-bold text-white mb-1">80%</p>
+          <div class="stat-icon">
+            <svg width="18" height="18" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2l2 4 4.5.7-3.3 3.1.8 4.5L9 12.2 5 14.3l.8-4.5L2.5 6.7 7 6z"/></svg>
+          </div>
+          <p class="text-3xl md:text-4xl font-bold text-white mb-1" data-count="80" data-suffix="%">80%</p>
           <p class="text-xs font-medium" style="color:rgba(255,255,255,0.4);">Merit Scholarship</p>
           <p class="text-xs mt-1" style="color:rgba(147,197,253,0.4);">VinUniversity</p>
         </div>
         <div class="stat-card reveal reveal-d2 text-center">
-          <p class="text-3xl md:text-4xl font-bold text-white mb-1">$29K</p>
+          <div class="stat-icon">
+            <svg width="18" height="18" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1v16M5 4h8a2 2 0 010 4H6a2 2 0 000 4h8"/></svg>
+          </div>
+          <p class="text-3xl md:text-4xl font-bold text-white mb-1" data-count="29" data-prefix="$" data-suffix="K">$29K</p>
           <p class="text-xs font-medium" style="color:rgba(255,255,255,0.4);">Sponsorships Raised</p>
           <p class="text-xs mt-1" style="color:rgba(147,197,253,0.4);">140% of target</p>
         </div>
         <div class="stat-card reveal reveal-d3 text-center">
-          <p class="text-3xl md:text-4xl font-bold text-white mb-1">300+</p>
+          <div class="stat-icon">
+            <svg width="18" height="18" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><path d="M9 5v4l3 2"/></svg>
+          </div>
+          <p class="text-3xl md:text-4xl font-bold text-white mb-1" data-count="300" data-suffix="+">300+</p>
           <p class="text-xs font-medium" style="color:rgba(255,255,255,0.4);">B2B Leads Generated</p>
           <p class="text-xs mt-1" style="color:rgba(147,197,253,0.4);">Europe & Middle East</p>
         </div>
         <div class="stat-card reveal reveal-d4 text-center">
-          <p class="text-3xl md:text-4xl font-bold text-white mb-1">8K+</p>
+          <div class="stat-icon">
+            <svg width="18" height="18" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V8M9 14V4M14 14V10"/></svg>
+          </div>
+          <p class="text-3xl md:text-4xl font-bold text-white mb-1" data-count="8" data-suffix="K+">8K+</p>
           <p class="text-xs font-medium" style="color:rgba(255,255,255,0.4);">Report Readers</p>
           <p class="text-xs mt-1" style="color:rgba(147,197,253,0.4);">ASEAN Market Research</p>
         </div>
         <div class="stat-card reveal reveal-d5 text-center col-span-2 md:col-span-1">
+          <div class="stat-icon">
+            <svg width="18" height="18" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14l4-10 4 10M6.5 10h5"/></svg>
+          </div>
           <p class="text-3xl md:text-4xl font-bold text-white mb-1">2nd</p>
           <p class="text-xs font-medium" style="color:rgba(255,255,255,0.4);">Case Competition</p>
           <p class="text-xs mt-1" style="color:rgba(147,197,253,0.4);">Henkel × EBS</p>
@@ -414,14 +701,14 @@
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
   <div class="text-center py-10">
     <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">The story behind the stats</p>
     <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
   </div>
 
   <!-- ====== ABOUT ====== -->
-  <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="about">
+  <section class="relative py-20 md:py-28 px-6" style="background:#1a1e3a;" id="about">
     <div class="max-w-5xl mx-auto">
       <div class="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
         <div>
@@ -478,15 +765,15 @@
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
   <div class="text-center py-10">
     <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">From pattern to process</p>
     <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
   </div>
 
   <!-- ====== EXPERIENCE JOURNEY ====== -->
-  <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="experience">
-    <div class="max-w-5xl mx-auto">
+  <section class="relative py-20 md:py-28 px-6" style="background:#1a1e3a;" id="experience">
+    <div class="max-w-4xl mx-auto">
       <div class="reveal text-center mb-16">
         <p class="section-label mb-3">Experience</p>
         <h2 class="text-3xl md:text-5xl font-bold tracking-tight">
@@ -495,188 +782,118 @@
         <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">Every role taught me something. Each one led to the next.</p>
       </div>
 
-      <!-- Interactive Steps -->
-      <div class="grid md:grid-cols-2 gap-8 items-start reveal">
+      <!-- Vertical Timeline -->
+      <div class="relative" style="padding-left:36px;">
+        <!-- Timeline vertical line -->
+        <div class="tl-connector" style="left:11px; top:20px; bottom:20px;"></div>
 
-        <!-- Left: Step selectors -->
-        <div class="flex flex-col gap-3">
-          <button class="exp-step exp-step-active" data-step="0" onclick="selectStep(0)">
-            <div class="exp-step-icon">
-              <span class="font-mono text-sm font-semibold">1</span>
+        <!-- Role 1: VMC -->
+        <div class="relative mb-10 reveal">
+          <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+          <div class="tl-card">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+              <div>
+                <p class="text-base font-bold text-white">Research Analyst</p>
+                <p class="text-sm" style="color:rgba(255,255,255,0.5);">Vietnam Management Consulting</p>
+              </div>
+              <span class="text-xs font-mono flex-shrink-0 mt-0.5" style="color:rgba(147,197,253,0.45);">2023</span>
             </div>
-            <div class="flex-1 text-left">
-              <p class="text-sm font-semibold text-white">The Foundation</p>
-              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">Research Analyst, VMC</p>
-              <div class="exp-step-tags">
-                <span class="exp-chip">Market research</span>
-                <span class="exp-chip">8K+ readers</span>
+            <p class="text-sm font-light leading-[1.7] mb-4" style="color:rgba(255,255,255,0.45);">
+              Conducted market research on dairy production across Southeast Asia. Findings reached <strong class="font-medium text-white">8,000+ readers</strong> and were featured by IVG's Outlook on ASEAN.
+            </p>
+            <div class="flex items-center gap-5">
+              <div>
+                <p class="tl-card-metric glow-text-sm">8K+</p>
+                <p class="tl-card-metric-label">Readers reached</p>
+              </div>
+              <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+              <div>
+                <p class="tl-card-metric glow-text-sm">SEA</p>
+                <p class="tl-card-metric-label">Regional coverage</p>
               </div>
             </div>
-            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2023</span>
-          </button>
-
-          <button class="exp-step" data-step="1" onclick="selectStep(1)">
-            <div class="exp-step-icon">
-              <span class="font-mono text-sm font-semibold">2</span>
-            </div>
-            <div class="flex-1 text-left">
-              <p class="text-sm font-semibold text-white">The Pattern</p>
-              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">Head of Corporate Partnership, VBI</p>
-              <div class="exp-step-tags">
-                <span class="exp-chip">$29K raised</span>
-                <span class="exp-chip">25+ partners</span>
-              </div>
-            </div>
-            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2023–24</span>
-          </button>
-
-          <button class="exp-step" data-step="2" onclick="selectStep(2)">
-            <div class="exp-step-icon">
-              <span class="font-mono text-sm font-semibold">3</span>
-            </div>
-            <div class="flex-1 text-left">
-              <p class="text-sm font-semibold text-white">The Catalyst</p>
-              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">International Business Intern, Stavian</p>
-              <div class="exp-step-tags">
-                <span class="exp-chip">300+ B2B leads</span>
-                <span class="exp-chip">EU expansion</span>
-              </div>
-            </div>
-            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(147,197,253,0.35);">2025</span>
-          </button>
-
-          <button class="exp-step exp-step-cyan" data-step="3" onclick="selectStep(3)">
-            <div class="exp-step-icon exp-step-icon-cyan">
-              <span class="font-mono text-sm font-semibold">4</span>
-            </div>
-            <div class="flex-1 text-left">
-              <p class="text-sm font-semibold text-white flex items-center gap-2">The Build <span class="status-badge status-dev" style="font-size:0.6rem;padding:0.15rem 0.5rem;">Now</span></p>
-              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.4);">AI Automation Projects</p>
-              <div class="exp-step-tags">
-                <span class="exp-chip" style="background:rgba(34,211,238,0.08);color:rgba(103,232,249,0.7);border-color:rgba(34,211,238,0.15);">n8n</span>
-                <span class="exp-chip" style="background:rgba(34,211,238,0.08);color:rgba(103,232,249,0.7);border-color:rgba(34,211,238,0.15);">AI/ML</span>
-              </div>
-            </div>
-            <span class="text-xs font-mono flex-shrink-0" style="color:rgba(34,211,238,0.4);">2025–Now</span>
-          </button>
+          </div>
         </div>
 
-        <!-- Right: Detail panel -->
-        <div class="relative">
-          <!-- Step 0 detail -->
-          <div class="exp-detail exp-detail-active" data-detail="0">
-            <div class="exp-step-label">Step 1 of 4</div>
-            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=VMC+Research');">
-              <div class="exp-detail-img-overlay"></div>
-            </div>
-            <div class="exp-detail-body">
-              <div class="flex items-center gap-2 mb-3">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
-                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
-                </div>
-                <h3 class="text-base font-bold text-white">Vietnam Management Consulting</h3>
+        <!-- Role 2: VBI -->
+        <div class="relative mb-10 reveal reveal-d1">
+          <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+          <div class="tl-card">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+              <div>
+                <p class="text-base font-bold text-white">Head of Corporate Partnership</p>
+                <p class="text-sm" style="color:rgba(255,255,255,0.5);">VinUniversity Business Insider</p>
               </div>
-              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
-                Conducted market research on dairy production across Southeast Asia. Findings reached <strong class="font-medium text-white">8,000+ readers</strong> and were featured by IVG's Outlook on ASEAN. This was where I first learned to see systems, not just tasks.
-              </p>
-              <div class="grid grid-cols-2 gap-3">
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">8K+</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Readers reached</p>
-                </div>
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">SEA</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Regional coverage</p>
-                </div>
-              </div>
+              <span class="text-xs font-mono flex-shrink-0 mt-0.5" style="color:rgba(147,197,253,0.45);">2023 - 2024</span>
             </div>
-          </div>
-
-          <!-- Step 1 detail -->
-          <div class="exp-detail" data-detail="1">
-            <div class="exp-step-label">Step 2 of 4</div>
-            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=VBI+Partnership');">
-              <div class="exp-detail-img-overlay"></div>
-            </div>
-            <div class="exp-detail-body">
-              <div class="flex items-center gap-2 mb-3">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
-                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
-                </div>
-                <h3 class="text-base font-bold text-white">VinUniversity Business Insider</h3>
+            <p class="text-sm font-light leading-[1.7] mb-4" style="color:rgba(255,255,255,0.45);">
+              Led a team of 5 and cold-called my way to <strong class="font-medium text-white">$29,000 in sponsorships</strong>, 140% of target. Managed 25+ corporate partners end-to-end.
+            </p>
+            <div class="flex items-center gap-5">
+              <div>
+                <p class="tl-card-metric glow-text-sm">$29K</p>
+                <p class="tl-card-metric-label">Raised</p>
               </div>
-              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
-                Led a team of 5 and cold-called my way to <strong class="font-medium text-white">$29,000 in sponsorships</strong>, 40% above target. Tracked every partnership by hand. Spreadsheets. Follow-up reminders. Fragmented processes. The results were strong. The system behind them was not.
-              </p>
-              <div class="grid grid-cols-3 gap-3">
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">$29K</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Raised</p>
-                </div>
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">25+</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Partners</p>
-                </div>
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">140%</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Of target</p>
-                </div>
+              <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+              <div>
+                <p class="tl-card-metric glow-text-sm">25+</p>
+                <p class="tl-card-metric-label">Partners</p>
+              </div>
+              <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+              <div>
+                <p class="tl-card-metric glow-text-sm">140%</p>
+                <p class="tl-card-metric-label">Of target</p>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Step 2 detail -->
-          <div class="exp-detail" data-detail="2">
-            <div class="exp-step-label">Step 3 of 4</div>
-            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a0a2e/1e3a5f?text=Stavian+Manufacturing');">
-              <div class="exp-detail-img-overlay"></div>
-            </div>
-            <div class="exp-detail-body">
-              <div class="flex items-center gap-2 mb-3">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.25);">
-                  <svg width="14" height="14" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
-                </div>
-                <h3 class="text-base font-bold text-white">Stavian Industrial Manufacturing</h3>
+        <!-- Role 3: Stavian -->
+        <div class="relative mb-10 reveal reveal-d2">
+          <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+          <div class="tl-card">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+              <div>
+                <p class="text-base font-bold text-white">International Business Intern</p>
+                <p class="text-sm" style="color:rgba(255,255,255,0.5);">Stavian Industrial Manufacturing</p>
               </div>
-              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
-                Built a database of <strong class="font-medium text-white">300+ qualified B2B customers</strong> for European and Middle Eastern expansion. On my first day, I watched a salesman copy lead data row by row for three hours. Not because he was bad at his job. Because the system was.
-              </p>
-              <div class="grid grid-cols-2 gap-3">
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">300+</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">B2B leads built</p>
-                </div>
-                <div class="exp-stat-card">
-                  <p class="text-lg font-bold text-white">2</p>
-                  <p class="text-[0.65rem] mt-0.5" style="color:rgba(255,255,255,0.35);">Regions targeted</p>
-                </div>
+              <span class="text-xs font-mono flex-shrink-0 mt-0.5" style="color:rgba(147,197,253,0.45);">2025</span>
+            </div>
+            <p class="text-sm font-light leading-[1.7] mb-4" style="color:rgba(255,255,255,0.45);">
+              Built a database of <strong class="font-medium text-white">300+ qualified B2B customers</strong> for European and Middle Eastern expansion. Identified that manual lead sourcing was the core bottleneck.
+            </p>
+            <div class="flex items-center gap-5">
+              <div>
+                <p class="tl-card-metric glow-text-sm">300+</p>
+                <p class="tl-card-metric-label">B2B leads built</p>
+              </div>
+              <div style="width:1px;height:28px;background:rgba(255,255,255,0.08);"></div>
+              <div>
+                <p class="tl-card-metric glow-text-sm">2</p>
+                <p class="tl-card-metric-label">Regions targeted</p>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Step 3 detail (The Build - cyan accent, spotlight) -->
-          <div class="exp-detail" data-detail="3" style="position:relative;">
-            <div class="exp-step-label" style="background:rgba(34,211,238,0.12);color:#67e8f9;border-color:rgba(34,211,238,0.25);">Step 4 of 4</div>
-            <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:300px;height:200px;border-radius:50%;background:radial-gradient(ellipse,rgba(34,211,238,0.1) 0%,transparent 70%);filter:blur(40px);pointer-events:none;z-index:0;"></div>
-            <div class="exp-detail-img" style="background-image:url('https://placehold.co/600x340/0a1a2e/134e5f?text=AI+Automation');border:1px solid rgba(34,211,238,0.15);border-bottom:none;position:relative;z-index:1;">
-              <div class="exp-detail-img-overlay" style="background:linear-gradient(to top, rgba(3,2,19,0.9) 0%, rgba(34,211,238,0.05) 100%);"></div>
+        <!-- Role 4: AI Automation (current) -->
+        <div class="relative reveal reveal-d3">
+          <div class="tl-dot tl-dot-cyan"><div class="tl-dot-inner"></div></div>
+          <div class="tl-card tl-card-cyan">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+              <div>
+                <p class="text-base font-bold text-white flex items-center gap-2">AI Automation Projects <span class="status-badge status-dev" style="font-size:0.6rem;padding:0.15rem 0.5rem;">Now</span></p>
+                <p class="text-sm" style="color:rgba(255,255,255,0.5);">Self-directed</p>
+              </div>
+              <span class="text-xs font-mono flex-shrink-0 mt-0.5" style="color:rgba(103,232,249,0.45);">2025 - Present</span>
             </div>
-            <div class="exp-detail-body" style="border-color:rgba(34,211,238,0.15);position:relative;z-index:1;">
-              <div class="flex items-center gap-2 mb-3">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(34,211,238,0.15);border:1px solid rgba(34,211,238,0.25);">
-                  <svg width="14" height="14" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/><path d="M5 7l1.5 1.5L9 5.5"/></svg>
-                </div>
-                <h3 class="text-base font-bold text-white">AI Automation Projects</h3>
-                <span class="status-badge status-dev" style="font-size:0.6rem;margin-left:auto;">Now</span>
-              </div>
-              <p class="text-sm font-light leading-[1.75] mb-5" style="color:rgba(255,255,255,0.5);">
-                A mentor introduced me to <strong class="font-medium text-white">n8n</strong>. Suddenly every experience reorganized itself around one question: what if I'd known this sooner? I started building: email classifiers, chatbots, a full lead gen system with deduplication logic. My edge isn't writing code. It's understanding the problem clearly enough to direct AI to write it for me.
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">Email Classifier</span>
-                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">RAG Chatbot</span>
-                <span class="skill-tag skill-tag-cyan" style="padding:0.4rem 1rem;font-size:0.75rem;">B2B Lead Gen</span>
-              </div>
+            <p class="text-sm font-light leading-[1.7] mb-4" style="color:rgba(255,255,255,0.45);">
+              Building automation systems with <strong class="font-medium text-white">n8n</strong> and AI: email classifiers, RAG chatbots, and B2B lead gen pipelines with deduplication logic.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag skill-tag-cyan" style="padding:0.35rem 0.9rem;font-size:0.75rem;">Email Classifier</span>
+              <span class="skill-tag skill-tag-cyan" style="padding:0.35rem 0.9rem;font-size:0.75rem;">RAG Chatbot</span>
+              <span class="skill-tag skill-tag-cyan" style="padding:0.35rem 0.9rem;font-size:0.75rem;">B2B Lead Gen</span>
             </div>
           </div>
         </div>
@@ -685,14 +902,14 @@
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
   <div class="text-center py-10">
     <p class="text-lg md:text-xl font-semibold tracking-tight" style="color:rgba(147,197,253,0.55);">What I built with it</p>
     <svg class="mx-auto mt-3" width="20" height="20" fill="none" stroke="rgba(147,197,253,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v12M4 10l6 6 6-6"/></svg>
   </div>
 
   <!-- ====== AI PROJECTS ====== -->
-  <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="projects">
+  <section class="relative py-20 md:py-28 px-6" style="background:#1a1e3a;" id="projects">
     <div class="absolute inset-0" style="background: radial-gradient(ellipse at 60% 30%, rgba(34,211,238,0.04) 0%, transparent 60%);"></div>
     <div class="max-w-5xl mx-auto relative z-10">
       <div class="reveal text-center mb-14">
@@ -702,81 +919,147 @@
         </h2>
         <p class="text-sm mt-3" style="color:rgba(255,255,255,0.4);">Systems that run, problems that get solved, people freed to do what they were meant to do.</p>
       </div>
-      <div class="grid md:grid-cols-3 gap-5">
-        <div class="glass-card p-6 reveal reveal-d1">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
-              <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="18" height="14" rx="3"/><path d="M2 8l9 5 9-5"/></svg>
+      <div class="flex flex-col gap-10">
+        <!-- ===== PROJECT 1: EMAIL CLASSIFIER ===== -->
+        <div class="case-study-card reveal reveal-d1">
+          <!-- Hero: Demo Screenshot Area -->
+          <div class="case-hero">
+            <div class="flow-glow" style="top:20%;left:10%;background:radial-gradient(ellipse,rgba(37,99,235,0.15),transparent 70%);"></div>
+            <div class="flow-glow" style="top:40%;right:10%;background:radial-gradient(ellipse,rgba(34,197,94,0.1),transparent 70%);"></div>
+            <div class="demo-container">
+              <img src="https://placehold.co/800x400/0a0a2e/1e3a5f?text=n8n+Email+Classifier+Workflow" alt="Email Classifier n8n workflow demo" class="demo-screenshot" />
+              <div class="demo-play-overlay">
+                <div class="demo-play-btn">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" fill="currentColor"/></svg>
+                </div>
+                <span class="demo-play-label">Watch Demo</span>
+              </div>
             </div>
-            <span class="status-badge status-built">Built</span>
+            <div class="case-hero-overlay"></div>
+            <div class="case-hero-title">
+              <div class="flex items-center gap-3">
+                <span class="status-badge status-built">Built</span>
+                <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + AI/ML</span>
+              </div>
+              <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Email Classifier</h3>
+            </div>
           </div>
-          <h3 class="text-base font-semibold text-white mb-2">Email Classifier</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Every business I've worked with drowns in email. This system classifies, prioritizes, and routes messages automatically. Saves someone an hour a day.</p>
-          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
-            <p class="text-xs font-medium mb-2" style="color:rgba(147,197,253,0.5);">How it works</p>
-            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
-              <li>Incoming emails parsed via n8n webhook trigger</li>
-              <li>AI model classifies by urgency and category</li>
-              <li>Auto-routes to correct folder or team member</li>
-            </ul>
-          </div>
-          <div class="flex flex-wrap gap-1.5 mt-4">
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">n8n</span>
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">AI/ML</span>
+          <!-- Case Study Body: Pain / Build / Result -->
+          <div class="case-body">
+            <div class="case-phases">
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
+                <p class="case-phase-text">Every business I've worked with drowns in email. People spend an hour a day just sorting and forwarding messages to the right person.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
+                <p class="case-phase-text">n8n webhook catches incoming mail. An AI model reads each message, classifies it by urgency and category, then auto-routes it to the right folder or team member.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
+                <div class="result-metric glow-text-sm">1hr/day</div>
+                <p class="result-metric-label">saved per person on email triage</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="glass-card p-6 reveal reveal-d2">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.15);">
-              <svg width="22" height="22" fill="none" stroke="#67e8f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="9"/><path d="M11 7v4l3 2"/><path d="M7 15l-2 3M15 15l2 3"/></svg>
+
+        <!-- ===== PROJECT 2: RAG CUSTOMER SUPPORT ===== -->
+        <div class="case-study-card reveal reveal-d2">
+          <!-- Hero: Demo Screenshot Area -->
+          <div class="case-hero">
+            <div class="flow-glow" style="top:30%;left:5%;background:radial-gradient(ellipse,rgba(34,211,238,0.12),transparent 70%);"></div>
+            <div class="flow-glow" style="bottom:10%;right:15%;background:radial-gradient(ellipse,rgba(37,99,235,0.1),transparent 70%);"></div>
+            <div class="demo-container">
+              <img src="https://placehold.co/800x400/0a0a2e/134e5f?text=RAG+Pipeline+Demo" alt="RAG Customer Support pipeline demo" class="demo-screenshot" />
+              <div class="demo-play-overlay">
+                <div class="demo-play-btn">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" fill="currentColor"/></svg>
+                </div>
+                <span class="demo-play-label">Watch Demo</span>
+              </div>
             </div>
-            <span class="status-badge status-dev">In Development</span>
+            <div class="case-hero-overlay"></div>
+            <div class="case-hero-title">
+              <div class="flex items-center gap-3">
+                <span class="status-badge status-dev">In Development</span>
+                <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">RAG + LLM</span>
+              </div>
+              <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">RAG Customer Support</h3>
+            </div>
           </div>
-          <h3 class="text-base font-semibold text-white mb-2">RAG Customer Support</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Scoping for an English language center in Vietnam. A retrieval-augmented chatbot that understands business context. Real answers from real documentation.</p>
-          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
-            <p class="text-xs font-medium mb-2" style="color:rgba(103,232,249,0.5);">How it works</p>
-            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
-              <li>Business docs chunked and embedded into vector store</li>
-              <li>User queries matched to relevant context via RAG</li>
-              <li>LLM generates grounded answers with source citations</li>
-            </ul>
-          </div>
-          <div class="flex flex-wrap gap-1.5 mt-4">
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(34,211,238,0.1);color:rgba(103,232,249,0.6);">RAG</span>
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(34,211,238,0.1);color:rgba(103,232,249,0.6);">LLM</span>
+          <!-- Case Study Body -->
+          <div class="case-body">
+            <div class="case-phases">
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
+                <p class="case-phase-text">An English language center in Vietnam answers the same customer questions hundreds of times. Staff spend hours on repetitive replies instead of teaching.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
+                <p class="case-phase-text">Business documents are chunked and embedded into a vector store. When a customer asks a question, RAG retrieves relevant context and an LLM generates a grounded answer with source citations.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
+                <div class="result-metric" style="color:#67e8f9;">24/7</div>
+                <p class="result-metric-label">instant, accurate answers from real documentation</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="glass-card p-6 reveal reveal-d3">
-          <div class="flex items-start justify-between mb-5">
-            <div class="flex items-center justify-center w-12 h-12 rounded-xl" style="background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.15);">
-              <svg width="22" height="22" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h14v14H4z"/><path d="M9 4v14M4 9h14"/></svg>
+
+        <!-- ===== PROJECT 3: B2B LEAD GENERATION ===== -->
+        <div class="case-study-card reveal reveal-d3">
+          <!-- Hero: Demo Screenshot Area -->
+          <div class="case-hero">
+            <div class="flow-glow" style="top:20%;left:20%;background:radial-gradient(ellipse,rgba(37,99,235,0.12),transparent 70%);"></div>
+            <div class="flow-glow" style="bottom:20%;right:10%;background:radial-gradient(ellipse,rgba(34,197,94,0.1),transparent 70%);"></div>
+            <div class="demo-container">
+              <img src="https://placehold.co/800x400/0a0a2e/1a3a2e?text=Lead+Gen+Workflow+Demo" alt="B2B Lead Generation workflow demo" class="demo-screenshot" />
+              <div class="demo-play-overlay">
+                <div class="demo-play-btn">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" fill="currentColor"/></svg>
+                </div>
+                <span class="demo-play-label">Watch Demo</span>
+              </div>
             </div>
-            <span class="status-badge status-proposed">Proposed</span>
+            <div class="case-hero-overlay"></div>
+            <div class="case-hero-title">
+              <div class="flex items-center gap-3">
+                <span class="status-badge status-proposed">Proposed</span>
+                <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + Automation</span>
+              </div>
+              <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">B2B Lead Generation</h3>
+            </div>
           </div>
-          <h3 class="text-base font-semibold text-white mb-2">B2B Lead Generation</h3>
-          <p class="text-sm font-light leading-relaxed" style="color:rgba(255,255,255,0.45);">Automates multi-state lead sourcing with deduplication logic, replacing 3+ hours of manual data entry per session. Built for a plastics manufacturer expanding into Europe and the Middle East.</p>
-          <div class="mt-4 pt-4" style="border-top:1px solid rgba(255,255,255,0.06);">
-            <p class="text-xs font-medium mb-2" style="color:rgba(147,197,253,0.5);">How it works</p>
-            <ul class="text-xs font-light leading-relaxed space-y-1.5" style="color:rgba(255,255,255,0.4);">
-              <li>Scrapes leads from multiple online sources automatically</li>
-              <li>Multi-state deduplication filters out existing contacts</li>
-              <li>Qualified leads pushed to CRM with enriched data</li>
-            </ul>
-          </div>
-          <div class="flex flex-wrap gap-1.5 mt-4">
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">n8n</span>
-            <span class="text-xs font-mono px-2 py-0.5 rounded-md" style="background:rgba(37,99,235,0.1);color:rgba(147,197,253,0.6);">Automation</span>
+          <!-- Case Study Body -->
+          <div class="case-body">
+            <div class="case-phases">
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
+                <p class="case-phase-text">A salesman copies lead data row by row for 3+ hours a day. Not because he's bad at his job. Because the system is. Manual sourcing across multiple regions with no deduplication.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
+                <p class="case-phase-text">n8n scrapes leads from multiple online sources, runs multi-state deduplication against existing contacts, enriches data, and pushes qualified leads directly to the CRM.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
+                <div class="result-metric glow-text-sm">3hrs+</div>
+                <p class="result-metric-label">of manual data entry eliminated per session</p>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
 
   <!-- ====== SKILLS ====== -->
-  <section class="relative py-20 md:py-28 px-6" style="background:#030213;" id="skills">
+  <section class="relative py-20 md:py-28 px-6" style="background:#1a1e3a;" id="skills">
     <div class="max-w-5xl mx-auto">
       <div class="reveal text-center mb-14">
         <p class="section-label mb-3">Capabilities</p>
@@ -844,10 +1127,10 @@
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
 
   <!-- ====== SOCIAL PROOF ====== -->
-  <section class="relative py-20 md:py-24 px-6" style="background:#030213;">
+  <section class="relative py-20 md:py-24 px-6" style="background:#1a1e3a;">
     <div class="max-w-4xl mx-auto">
       <div class="reveal text-center mb-12">
         <p class="section-label mb-3">What others say</p>
@@ -880,10 +1163,10 @@
     </div>
   </section>
 
-  <div class="section-divider max-w-5xl mx-auto"></div>
+  <div class="section-divider reveal max-w-5xl mx-auto"></div>
 
   <!-- ====== CTA / CONTACT ====== -->
-  <section class="relative py-28 md:py-36 px-6" style="background:#030213;" id="contact">
+  <section class="relative py-28 md:py-36 px-6" style="background:#1a1e3a;" id="contact">
     <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 80%, rgba(37,99,235,0.06) 0%, transparent 60%);"></div>
     <div class="max-w-3xl mx-auto text-center relative z-10">
       <div class="reveal">
@@ -916,6 +1199,11 @@
     </div>
   </section>
 
+  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14V4M4 8l5-5 5 5"/></svg>
+  </button>
+
   <script>
     // Scroll reveals
     const obs = new IntersectionObserver(entries => {
@@ -932,7 +1220,7 @@
 
     document.querySelectorAll('.reveal, [data-dot]').forEach(el => obs.observe(el));
 
-    // Experience step selector
+    // Experience step selector with progress bar
     function selectStep(idx) {
       document.querySelectorAll('.exp-step').forEach(s => s.classList.remove('exp-step-active'));
       document.querySelectorAll('.exp-detail').forEach(d => {
@@ -946,7 +1234,84 @@
         detail.style.position = 'relative';
         detail.classList.add('exp-detail-active');
       }
+      // Progress indicator handled by border-left on active step
     }
+
+    // Animated counting for stats
+    function animateCounters() {
+      document.querySelectorAll('[data-count]').forEach(el => {
+        if (el.dataset.counted) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top > window.innerHeight || rect.bottom < 0) return;
+        el.dataset.counted = 'true';
+        const target = parseInt(el.dataset.count);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(target * eased);
+          el.textContent = prefix + current + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }
+    window.addEventListener('scroll', animateCounters, { passive: true });
+    animateCounters();
+
+    // Nav condense on scroll + active link highlighting
+    const navBar = document.querySelector('.nav-bar');
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    const sections = Array.from(navLinks).map(link => {
+      const id = link.getAttribute('href').slice(1);
+      return { id, el: document.getElementById(id), link };
+    }).filter(s => s.el);
+
+    function onScroll() {
+      // Nav condense
+      if (window.scrollY > 80) {
+        navBar.classList.add('nav-scrolled');
+      } else {
+        navBar.classList.remove('nav-scrolled');
+      }
+
+      // Active nav link
+      let current = '';
+      for (const s of sections) {
+        const rect = s.el.getBoundingClientRect();
+        if (rect.top <= 120) current = s.id;
+      }
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href').slice(1);
+        if (href === current) {
+          link.style.color = '#fff';
+          link.style.background = 'rgba(255,255,255,0.06)';
+        } else {
+          link.style.color = '';
+          link.style.background = '';
+        }
+      });
+
+      // Back-to-top visibility
+      const btt = document.getElementById('back-to-top');
+      if (btt) {
+        if (window.scrollY > 600) {
+          btt.style.opacity = '1';
+          btt.style.transform = 'translateY(0)';
+          btt.style.pointerEvents = 'auto';
+        } else {
+          btt.style.opacity = '0';
+          btt.style.transform = 'translateY(12px)';
+          btt.style.pointerEvents = 'none';
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
   </script>
 </body>
