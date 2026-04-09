@@ -1,2 +1,9 @@
 node_modules/
 temporary screenshots/
+CLAUDE.md
+screenshot.mjs
+serve.mjs
+package.json
+package-lock.json
+*.pdf
+ibrahemghareib.com_portfolio.png
