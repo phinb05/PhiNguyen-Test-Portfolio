@@ -555,6 +555,191 @@
       .project-tab .tab-status { display: none; }
     }
 
+    /* ===== MEDIA CAROUSEL ===== */
+    .media-wrap { padding: 0 1.5rem 1.5rem; }
+    .media-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 0.75rem;
+    }
+    .media-carousel {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .media-carousel .media-slide {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .media-carousel .media-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .media-carousel .media-slide img,
+    .media-carousel .media-slide iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+    .media-carousel .media-slide img {
+      object-fit: contain;
+      background: rgba(255,255,255,0.02);
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+      z-index: 3;
+      padding: 0;
+    }
+    .carousel-arrow:hover {
+      background: rgba(37,99,235,0.4);
+      border-color: rgba(147,197,253,0.5);
+    }
+    .carousel-arrow.prev { left: 12px; }
+    .carousel-arrow.next { right: 12px; }
+    .carousel-dots {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      z-index: 3;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 100px;
+    }
+    .carousel-dots .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .carousel-dots .dot.active {
+      background: #93c5fd;
+      transform: scale(1.3);
+    }
+    .media-carousel[data-slides="1"] .carousel-arrow,
+    .media-carousel[data-slides="1"] .carousel-dots {
+      display: none;
+    }
+    @media (max-width: 640px) {
+      .carousel-arrow { width: 30px; height: 30px; font-size: 1rem; }
+      .carousel-arrow.prev { left: 6px; }
+      .carousel-arrow.next { right: 6px; }
+    }
+
+    /* ===== DIVE DEEPER ===== */
+    .dive-deeper-wrap { padding: 0 1.5rem 1.5rem; }
+    .dive-deeper-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.6rem 1.1rem;
+      border-radius: 100px;
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(147,197,253,0.22);
+      color: rgba(147,197,253,0.9);
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
+    .dive-deeper-btn:hover {
+      background: rgba(37,99,235,0.18);
+      border-color: rgba(147,197,253,0.5);
+      color: #cfe0ff;
+      transform: translateY(-1px);
+    }
+    .dive-deeper-btn .chev {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 0.85rem;
+    }
+    .dive-deeper-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+    .dive-deeper-content {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      animation: panelFadeIn 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .dive-deeper-content[hidden] { display: none; }
+    .dive-deeper-section { margin-bottom: 1.25rem; }
+    .dive-deeper-section:last-child { margin-bottom: 0; }
+    .dive-deeper-section h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(147,197,253,0.75);
+      margin-bottom: 0.55rem;
+    }
+    .dive-deeper-section p {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 0.55rem;
+    }
+    .dive-deeper-section p:last-child { margin-bottom: 0; }
+    .dive-deeper-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .dive-deeper-section li {
+      font-size: 0.82rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.55);
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: 0.45rem;
+    }
+    .dive-deeper-section li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: rgba(147,197,253,0.55);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .dive-deeper-section strong {
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+    }
+
     /* Flow glow backdrop */
     .flow-glow {
       position: absolute;
@@ -967,83 +1152,23 @@
       </div>
       <!-- Project Tabs -->
       <div class="project-tabs reveal reveal-d1">
-        <button class="project-tab active" data-tab="email">
-          Email Classifier
+        <button class="project-tab active" data-tab="leadgen">
+          Lead Generation
+          <span class="tab-status status-badge status-proposed">Proposed</span>
+        </button>
+        <button class="project-tab" data-tab="email">
+          Cold Email
           <span class="tab-status status-badge status-built">Built</span>
         </button>
-        <button class="project-tab" data-tab="rag">
-          RAG Chatbot
-          <span class="tab-status status-badge status-dev">In Dev</span>
-        </button>
-        <button class="project-tab" data-tab="leadgen">
-          Lead Gen
-          <span class="tab-status status-badge status-proposed">Proposed</span>
+        <button class="project-tab" data-tab="support">
+          Customer Support
+          <span class="tab-status status-badge status-built">Built</span>
         </button>
       </div>
 
       <!-- Tab Panels -->
-      <!-- ===== EMAIL CLASSIFIER ===== -->
-      <div class="project-panel active reveal reveal-d2" data-panel="email">
-        <div class="case-study-card">
-          <div style="padding:1.5rem 1.5rem 0;">
-            <div class="flex items-center gap-3">
-              <span class="status-badge status-built">Built</span>
-              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + AI/ML</span>
-            </div>
-            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Email Classifier</h3>
-          </div>
-          <div class="case-body">
-            <div class="case-phases">
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
-                <p class="case-phase-text">Every business I've worked with drowns in email. People spend an hour a day just sorting and forwarding messages to the right person.</p>
-              </div>
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
-                <p class="case-phase-text">n8n webhook catches incoming mail. An AI model reads each message, classifies it by urgency and category, then auto-routes it to the right folder or team member.</p>
-              </div>
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
-                <div class="result-metric glow-text-sm">1hr/day</div>
-                <p class="result-metric-label">saved per person on email triage</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== RAG CUSTOMER SUPPORT ===== -->
-      <div class="project-panel" data-panel="rag">
-        <div class="case-study-card">
-          <div style="padding:1.5rem 1.5rem 0;">
-            <div class="flex items-center gap-3">
-              <span class="status-badge status-dev">In Development</span>
-              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">RAG + LLM</span>
-            </div>
-            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">RAG Customer Support</h3>
-          </div>
-          <div class="case-body">
-            <div class="case-phases">
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
-                <p class="case-phase-text">An English language center in Vietnam answers the same customer questions hundreds of times. Staff spend hours on repetitive replies instead of teaching.</p>
-              </div>
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
-                <p class="case-phase-text">Business documents are chunked and embedded into a vector store. When a customer asks a question, RAG retrieves relevant context and an LLM generates a grounded answer with source citations.</p>
-              </div>
-              <div class="case-phase">
-                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
-                <div class="result-metric" style="color:#67e8f9;">24/7</div>
-                <p class="result-metric-label">instant, accurate answers from real documentation</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ===== B2B LEAD GENERATION ===== -->
-      <div class="project-panel" data-panel="leadgen">
+      <!-- ===== LEAD GENERATION ===== -->
+      <div class="project-panel active reveal reveal-d2" data-panel="leadgen">
         <div class="case-study-card">
           <div style="padding:1.5rem 1.5rem 0;">
             <div class="flex items-center gap-3">
@@ -1068,11 +1193,185 @@
                 <p class="result-metric-label">of manual data entry eliminated per session</p>
               </div>
             </div>
-            <!-- Demo Video -->
-            <div style="padding:0 1.5rem 1.5rem;">
-              <p style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.3);margin-bottom:0.75rem;">Demo</p>
-              <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;">
-                <iframe src="https://www.youtube.com/embed/v0UDrzaIhiw?start=0" title="B2B Lead Generation Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;"></iframe>
+          </div>
+          <div class="media-wrap">
+            <p class="media-label">Demo</p>
+            <div class="media-carousel" data-slides="1">
+              <div class="media-slides">
+                <div class="media-slide active">
+                  <iframe src="https://www.youtube.com/embed/v0UDrzaIhiw" title="B2B Lead Generation Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+              </div>
+              <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
+              <div class="carousel-dots">
+                <button class="dot active" data-idx="0" aria-label="Slide 1"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== COLD EMAIL ===== -->
+      <div class="project-panel reveal reveal-d2" data-panel="email">
+        <div class="case-study-card">
+          <div style="padding:1.5rem 1.5rem 0;">
+            <div class="flex items-center gap-3">
+              <span class="status-badge status-built">Built</span>
+              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + Claude Sonnet</span>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Cold Email Workflow</h3>
+          </div>
+          <div class="case-body">
+            <div class="case-phases">
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
+                <p class="case-phase-text">Generic cold emails get ignored in one swipe. Hand-writing personalised ones tops out at ~20 per morning, and tracking who's been emailed is how double-sends and spam hits happen.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
+                <p class="case-phase-text">An n8n loop reads leads from Google Sheets, builds a per-lead Claude Sonnet prompt with the company profile, sends via Gmail, and writes <code>sent</code> back to the row — all resumable mid-run.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
+                <div class="result-metric glow-text-sm">0</div>
+                <p class="result-metric-label">double-sends, every email personalised at scale</p>
+              </div>
+            </div>
+          </div>
+          <div class="media-wrap">
+            <p class="media-label">Architecture</p>
+            <div class="media-carousel" data-slides="2">
+              <div class="media-slides">
+                <div class="media-slide active">
+                  <img src="materials/cold-email-excalidraw.png" alt="Cold Email high-level architecture diagram">
+                </div>
+                <div class="media-slide">
+                  <img src="materials/cold-email-n8n.png" alt="Cold Email n8n canvas workflow">
+                </div>
+              </div>
+              <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
+              <div class="carousel-dots">
+                <button class="dot active" data-idx="0" aria-label="High-level view"></button>
+                <button class="dot" data-idx="1" aria-label="n8n canvas"></button>
+              </div>
+            </div>
+          </div>
+          <div class="dive-deeper-wrap">
+            <button class="dive-deeper-btn" aria-expanded="false" aria-controls="dive-email">
+              <span class="label">Dive deeper</span>
+              <span class="chev">&#9662;</span>
+            </button>
+            <div id="dive-email" class="dive-deeper-content" hidden>
+              <div class="dive-deeper-section">
+                <h4>The pipeline</h4>
+                <ul>
+                  <li><strong>Read leads</strong> from a Google Sheet whose schema matches the upstream Lead Generation system: name, email, company, website, description, keywords, plus a <code>send_status</code> column.</li>
+                  <li><strong>Loop in batches</strong> so a failure on one row doesn't take the whole run down.</li>
+                  <li><strong>Skip if already sent</strong> — the conditional on <code>send_status</code> is what makes the workflow resumable. Stop it mid-run, start it again, nobody gets double-emailed.</li>
+                  <li><strong>Build the prompt</strong> in a Code node from the lead's company profile plus sender details factored out as constants at the top.</li>
+                  <li><strong>Generate with Claude Sonnet</strong> via a direct Anthropic Messages API call. The system prompt locks tone ("warm and genuinely curious, never salesy"), length (&lt;130 words), and output format (strict JSON: <code>subject</code> + <code>body</code>).</li>
+                  <li><strong>Parse &amp; validate</strong> — strips markdown fences, throws with the raw response attached on failure so debugging isn't a guessing game.</li>
+                  <li><strong>Send via Gmail</strong>, then <strong>mark the row as sent</strong> — which makes the skip-check on the next run do its job.</li>
+                </ul>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>Design decisions worth calling out</h4>
+                <ul>
+                  <li><strong>Safe to stop and restart.</strong> Send-state lives in the same sheet the workflow reads from. The two halves can never drift apart, so interrupting a run is a non-event.</li>
+                  <li><strong>Strict JSON output with a safety net.</strong> LLMs that "almost" return valid JSON are a common production breakage. The prompt forbids fences, the parser strips them anyway.</li>
+                  <li><strong>Sender identity factored out of the template.</strong> Switching from "Alex at Acme" to your own name/company is editing three constants, not rewriting a prompt.</li>
+                </ul>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>Why this matters</h4>
+                <p>This is the outreach half of a complete outbound pipeline. It consumes the exact schema the Lead Generation workflow produces, so the two compose into a clean handoff: discover &amp; enrich → personalise &amp; deliver, with send-state as the only shared contract.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CUSTOMER SUPPORT ===== -->
+      <div class="project-panel reveal reveal-d2" data-panel="support">
+        <div class="case-study-card">
+          <div style="padding:1.5rem 1.5rem 0;">
+            <div class="flex items-center gap-3">
+              <span class="status-badge status-built">Built</span>
+              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + LangChain + OpenRouter</span>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Multi-Channel Customer Support Bot</h3>
+          </div>
+          <div class="case-body">
+            <div class="case-phases">
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
+                <p class="case-phase-text">A Vietnamese preschool couldn't staff live chat on Messenger, Telegram, and the website widget at once. Every minute of delay was a parent drifting to a competitor.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
+                <p class="case-phase-text">One LangChain agent (GPT-4o-mini via OpenRouter) sits behind three channel adapters. Shared knowledge base, per-session memory, Vietnamese phone regex for automatic lead capture.</p>
+              </div>
+              <div class="case-phase">
+                <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
+                <div class="result-metric" style="color:#67e8f9;">3-in-1</div>
+                <p class="result-metric-label">live channels, one source of truth, deployed to a real client</p>
+              </div>
+            </div>
+          </div>
+          <div class="media-wrap">
+            <p class="media-label">Architecture</p>
+            <div class="media-carousel" data-slides="2">
+              <div class="media-slides">
+                <div class="media-slide active">
+                  <img src="materials/customer-support-excalidraw.png" alt="Customer Support high-level architecture diagram">
+                </div>
+                <div class="media-slide">
+                  <img src="materials/customer-support-n8n.png" alt="Customer Support n8n canvas workflow">
+                </div>
+              </div>
+              <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
+              <div class="carousel-dots">
+                <button class="dot active" data-idx="0" aria-label="High-level view"></button>
+                <button class="dot" data-idx="1" aria-label="n8n canvas"></button>
+              </div>
+            </div>
+          </div>
+          <div class="dive-deeper-wrap">
+            <button class="dive-deeper-btn" aria-expanded="false" aria-controls="dive-support">
+              <span class="label">Dive deeper</span>
+              <span class="chev">&#9662;</span>
+            </button>
+            <div id="dive-support" class="dive-deeper-content" hidden>
+              <div class="dive-deeper-section">
+                <h4>One brain, three faces</h4>
+                <p>A single n8n workflow runs <strong>one shared AI agent</strong> behind <strong>three channel adapters</strong>. Knowledge, tone rules, and escalation logic live in exactly one place. Adding a channel means adding an adapter — not rebuilding the whole thing.</p>
+                <ul>
+                  <li><strong>AI Consultant agent</strong> — LangChain Agent + GPT-4o-mini carrying the full Vietnamese knowledge base for Sakuranbo Kindergarten: pricing tiers by age, schedules, admission, meals, discipline, extracurriculars, transport, dietary rules. System prompt locks tone (Vietnamese honorifics, "nhà trường", "anh/chị"; no casual pronouns) and factual boundaries (never invent prices — defer to staff when unsure).</li>
+                  <li><strong>Telegram adapter</strong> — Telegram Trigger → Extract Content → Detect Phone → route.</li>
+                  <li><strong>Facebook Messenger adapter</strong> — FB webhook (Verify + Message) → Extract FB Data → Get FB Profile → Detect Phone → route.</li>
+                  <li><strong>Website chat adapter</strong> — Web Chat Trigger → Web Detect Phone → route.</li>
+                  <li><strong>Per-session memory</strong> — LangChain Buffer Window memory keyed by sender ID, so each parent's thread is isolated.</li>
+                </ul>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>Automatic lead capture</h4>
+                <p>A Vietnamese phone regex (<code>0[35789]\d{8}</code>) runs on every incoming message. When a parent shares a number, the message is flagged, logged, and a <strong>separate Telegram notification fires to the staff's internal channel</strong> with name and phone. The agent is prompted to proactively ask for a number after two or three exchanges or on intent signals ("how do I register", "when can my child start"). Passive chat traffic becomes qualified leads without any manual triage.</p>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>Production details that usually get skipped</h4>
+                <ul>
+                  <li><strong>Prompt injection defense.</strong> A "TUYỆT MẬT" section in the system prompt refuses to reveal its own contents, blocks roleplay attacks ("pretend you are X", "ignore previous instructions"), and refuses internals questions — routing back to a safe canned response.</li>
+                  <li><strong>PII hashing.</strong> Sender IDs are SHA-256 hashed before being written to the log, so analytics stays useful without a direct identifier back to individual users.</li>
+                  <li><strong>Unified logging.</strong> All three channels write to the same Google Sheet with timestamp, hashed sender, question, response, and channel — so conversation history is searchable in one place.</li>
+                  <li><strong>Error trigger + staff alerting.</strong> A dedicated Error Trigger catches any failure and fires a Telegram alert with failing node, error message, and execution ID. Silent failures are the worst class of bug in customer-facing automation.</li>
+                </ul>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>The decision worth calling out</h4>
+                <p>The "one brain, three faces" split is what makes this maintainable. When the school raises a fee, I update one number in one system prompt and all three channels are immediately accurate. When Messenger breaks its webhook format, I patch one adapter and the other two surfaces keep running. Shared intelligence, isolated plumbing — that separation is the single most important thing this project taught me.</p>
               </div>
             </div>
           </div>
@@ -1245,14 +1544,51 @@
 
     document.querySelectorAll('.reveal, [data-dot]').forEach(el => obs.observe(el));
 
-    // Project tab switching
+    // Project tab switching (stops any playing video when leaving a panel)
     document.querySelectorAll('.project-tab').forEach(tab => {
       tab.addEventListener('click', () => {
+        const current = document.querySelector('.project-panel.active');
+        if (current && current.dataset.panel !== tab.dataset.tab) {
+          current.querySelectorAll('iframe').forEach(f => { f.src = f.src; });
+        }
         document.querySelectorAll('.project-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.project-panel').forEach(p => p.classList.remove('active'));
         tab.classList.add('active');
         const panel = document.querySelector('[data-panel="' + tab.dataset.tab + '"]');
         if (panel) panel.classList.add('active');
+      });
+    });
+
+    // Media carousels
+    document.querySelectorAll('.media-carousel').forEach(carousel => {
+      const slides = carousel.querySelectorAll('.media-slide');
+      const dots = carousel.querySelectorAll('.carousel-dots .dot');
+      const total = slides.length;
+      if (total <= 1) return;
+      let idx = 0;
+      const go = n => {
+        idx = (n + total) % total;
+        slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      };
+      const prev = carousel.querySelector('.carousel-arrow.prev');
+      const next = carousel.querySelector('.carousel-arrow.next');
+      if (prev) prev.addEventListener('click', () => go(idx - 1));
+      if (next) next.addEventListener('click', () => go(idx + 1));
+      dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.idx, 10))));
+    });
+
+    // Dive deeper toggles
+    document.querySelectorAll('.dive-deeper-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const content = document.getElementById(btn.getAttribute('aria-controls'));
+        if (!content) return;
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        if (expanded) content.setAttribute('hidden', '');
+        else content.removeAttribute('hidden');
+        const label = btn.querySelector('.label');
+        if (label) label.textContent = expanded ? 'Dive deeper' : 'Show less';
       });
     });
 
