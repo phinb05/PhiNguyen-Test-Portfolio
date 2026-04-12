@@ -657,6 +657,140 @@
       .carousel-arrow.next { right: 6px; }
     }
 
+    /* Workflow canvas diagrams (n8n-themed) */
+    .workflow-diagram {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(103,232,249,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(251,146,60,0.04) 0%, transparent 55%),
+        rgba(0,0,0,0.4);
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px),
+        radial-gradient(ellipse at 20% 0%, rgba(103,232,249,0.06) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 100%, rgba(251,146,60,0.04) 0%, transparent 55%);
+      background-size: 22px 22px, 100% 100%, 100% 100%;
+      background-color: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .wf-canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      font-family: inherit;
+    }
+    .wf-node rect.wf-node-bg,
+    .wf-node path.wf-node-bg {
+      fill: rgba(20, 24, 50, 0.92);
+      stroke: rgba(255,255,255,0.15);
+      stroke-width: 1.2;
+      transition: stroke 0.25s ease, fill 0.25s ease;
+      animation: nodeBreathe 4s ease-in-out infinite;
+    }
+    .wf-node:nth-child(2) rect.wf-node-bg { animation-delay: 0.5s; }
+    .wf-node:nth-child(3) rect.wf-node-bg { animation-delay: 1.0s; }
+    .wf-node:nth-child(4) rect.wf-node-bg { animation-delay: 1.5s; }
+    .wf-node:nth-child(5) rect.wf-node-bg { animation-delay: 2.0s; }
+    .wf-node:nth-child(6) rect.wf-node-bg { animation-delay: 2.5s; }
+    .wf-node:nth-child(7) rect.wf-node-bg { animation-delay: 3.0s; }
+    @keyframes nodeBreathe {
+      0%, 100% { stroke: rgba(255,255,255,0.12); filter: drop-shadow(0 0 0px transparent); }
+      50% { stroke: rgba(103,232,249,0.35); filter: drop-shadow(0 0 6px rgba(103,232,249,0.15)); }
+    }
+    .wf-node:hover rect.wf-node-bg,
+    .wf-node:hover path.wf-node-bg {
+      stroke: rgba(103,232,249,0.7);
+      fill: rgba(30, 38, 70, 0.95);
+      animation: none;
+    }
+    .wf-node text.wf-title {
+      fill: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      pointer-events: none;
+    }
+    .wf-node text.wf-sub {
+      fill: rgba(255,255,255,0.55);
+      font-size: 11.5px;
+      font-family: inherit;
+      pointer-events: none;
+    }
+    .wf-node text.wf-tool-tag {
+      fill: rgba(103,232,249,0.7);
+      font-size: 9.5px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .wf-decision rect.wf-node-bg,
+    .wf-decision path.wf-node-bg {
+      stroke: rgba(251,146,60,0.55);
+      animation: decisionBreathe 3s ease-in-out infinite !important;
+    }
+    @keyframes decisionBreathe {
+      0%, 100% { stroke: rgba(251,146,60,0.3); filter: drop-shadow(0 0 0px transparent); }
+      50% { stroke: rgba(251,146,60,0.65); filter: drop-shadow(0 0 8px rgba(251,146,60,0.2)); }
+    }
+    .wf-decision:hover rect.wf-node-bg,
+    .wf-decision:hover path.wf-node-bg {
+      stroke: rgba(251,146,60,0.95);
+      animation: none !important;
+    }
+    .wf-decision text.wf-tool-tag {
+      fill: rgba(251,146,60,0.85);
+    }
+    .wf-connector {
+      fill: none;
+      stroke: rgb(103,232,249);
+      stroke-opacity: 0.28;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+    }
+    .wf-connector-branch {
+      stroke: rgb(251,146,60);
+      stroke-opacity: 0.32;
+      stroke-dasharray: 4 3;
+    }
+    /* Traveling data particle along connectors */
+    .wf-particle {
+      fill: rgb(103,232,249);
+      r: 2.5;
+      opacity: 0;
+      filter: drop-shadow(0 0 4px rgba(103,232,249,0.6));
+    }
+    .wf-particle-branch {
+      fill: rgb(251,146,60);
+      filter: drop-shadow(0 0 4px rgba(251,146,60,0.6));
+    }
+    .wf-edge-label {
+      fill: rgba(251,146,60,0.85);
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .wf-edge-label-cool {
+      fill: rgba(103,232,249,0.7);
+    }
+    .wf-section-label {
+      fill: rgba(103,232,249,0.55);
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    @media (max-width: 768px) {
+      .workflow-diagram { padding: 0.6rem; }
+      .wf-node text.wf-title { font-size: 15px; }
+      .wf-node text.wf-sub { font-size: 12px; }
+    }
+
     /* ===== DIVE DEEPER ===== */
     .dive-deeper-wrap { padding: 0 1.5rem 1.5rem; }
     .dive-deeper-btn {
@@ -1141,6 +1275,44 @@
 
   <!-- ====== AI PROJECTS ====== -->
   <section class="relative py-14 md:py-20 px-6" style="background:#1a1e3a;" id="projects">
+    <!-- Shared brand-logo symbol library for workflow diagrams -->
+    <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+      <defs>
+        <symbol id="logo-sheets" viewBox="0 0 32 32">
+          <image href="materials/google_sheet.webp" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-gmail" viewBox="0 0 32 32">
+          <image href="materials/gmail.webp" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-telegram" viewBox="0 0 32 32">
+          <image href="materials/telegram.webp" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-messenger" viewBox="0 0 32 32">
+          <image href="materials/messenger.svg.webp" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-claude" viewBox="0 0 32 32">
+          <image href="materials/claude.png" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-apify" viewBox="0 0 32 32">
+          <image href="materials/apify.png" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-openrouter" viewBox="0 0 32 32">
+          <image href="materials/openrouterai.png" x="-3" y="-4" width="38" height="38" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-n8n" viewBox="0 0 32 32">
+          <image href="materials/n8n.png" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+        <symbol id="logo-web" viewBox="0 0 32 32">
+          <circle cx="16" cy="16" r="13" fill="#0d1226" stroke="#67e8f9" stroke-width="1.6"/>
+          <ellipse cx="16" cy="16" rx="6" ry="13" fill="none" stroke="#67e8f9" stroke-width="1.4"/>
+          <line x1="3" y1="16" x2="29" y2="16" stroke="#67e8f9" stroke-width="1.4"/>
+          <line x1="16" y1="3" x2="16" y2="29" stroke="#67e8f9" stroke-width="1.2" opacity="0.5"/>
+        </symbol>
+        <symbol id="logo-gate" viewBox="0 0 32 32">
+          <image href="materials/gear.png" x="0" y="0" width="32" height="32" preserveAspectRatio="xMidYMid meet"/>
+        </symbol>
+      </defs>
+    </svg>
     <div class="absolute inset-0" style="background: radial-gradient(ellipse at 60% 30%, rgba(34,211,238,0.04) 0%, transparent 60%);"></div>
     <div class="max-w-5xl mx-auto relative z-10">
       <div class="reveal text-center mb-14">
@@ -1205,8 +1377,84 @@
               <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
               <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
               <div class="carousel-dots">
-                <button class="dot active" data-idx="0" aria-label="Slide 1"></button>
+                <button class="dot active" data-idx="0" aria-label="Demo video"></button>
               </div>
+            </div>
+          </div>
+          <div class="media-wrap">
+            <p class="media-label">Architecture</p>
+            <div class="workflow-diagram">
+              <svg class="wf-canvas" viewBox="-85 0 1340 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lead Generation workflow diagram">
+                <!-- connectors -->
+                <path class="wf-connector" d="M -18 114 L 30 114"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite"/></path>
+                <path class="wf-connector" d="M 230 114 L 260 114"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.3s"/></path>
+                <path class="wf-connector" d="M 460 114 L 490 114"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.6s"/></path>
+                <path class="wf-connector" d="M 690 114 L 720 114"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.9s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 920 100 C 938 100, 948 57, 960 57"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="1.2s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 920 114 C 938 114, 948 155, 960 155"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="1.5s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 920 128 C 938 128, 948 253, 960 253"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="1.8s"/></path>
+                <!-- main row -->
+                <g class="wf-node" transform="translate(30, 70)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-n8n" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Form Trigger</text>
+                  <text x="64" y="50" class="wf-title">Request Leads</text>
+                  <text x="14" y="76" class="wf-sub">Industry &middot; title &middot; region</text>
+                </g>
+                <g class="wf-node" transform="translate(260, 70)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-apify" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Apify</text>
+                  <text x="64" y="50" class="wf-title">Scrape Prospects</text>
+                  <text x="14" y="76" class="wf-sub">Apollo actor pulls leads</text>
+                </g>
+                <g class="wf-node" transform="translate(490, 70)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-n8n" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">n8n</text>
+                  <text x="64" y="50" class="wf-title">Validate &amp; Enrich</text>
+                  <text x="14" y="76" class="wf-sub">Clean &amp; fuzzy-match</text>
+                </g>
+                <g class="wf-node wf-decision" transform="translate(720, 70)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-gate" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Decision</text>
+                  <text x="64" y="50" class="wf-title">Route by Action</text>
+                  <text x="14" y="76" class="wf-sub">New &middot; update &middot; review</text>
+                </g>
+                <!-- vertical fan-out: 3 Sheets nodes stacked right of Route -->
+                <g class="wf-node" transform="translate(960, 16)">
+                  <rect class="wf-node-bg" width="180" height="82" rx="14"/>
+                  <use href="#logo-sheets" x="14" y="18" width="40" height="40"/>
+                  <text x="64" y="30" class="wf-tool-tag">Sheets</text>
+                  <text x="64" y="48" class="wf-title">New Lead</text>
+                  <text x="14" y="70" class="wf-sub">Append fresh row</text>
+                </g>
+                <g class="wf-node" transform="translate(960, 114)">
+                  <rect class="wf-node-bg" width="180" height="82" rx="14"/>
+                  <use href="#logo-sheets" x="14" y="18" width="40" height="40"/>
+                  <text x="64" y="30" class="wf-tool-tag">Sheets</text>
+                  <text x="64" y="48" class="wf-title">Update Contact</text>
+                  <text x="14" y="70" class="wf-sub">Versioned history</text>
+                </g>
+                <g class="wf-node" transform="translate(960, 212)">
+                  <rect class="wf-node-bg" width="180" height="82" rx="14"/>
+                  <use href="#logo-sheets" x="14" y="18" width="40" height="40"/>
+                  <text x="64" y="30" class="wf-tool-tag">Sheets</text>
+                  <text x="64" y="48" class="wf-title">Manual Review</text>
+                  <text x="14" y="70" class="wf-sub">Flagged for human</text>
+                </g>
+                <!-- START pill -->
+                <g transform="translate(-78, 100)">
+                  <rect width="60" height="28" rx="14" fill="rgba(103,232,249,0.10)" stroke="rgba(103,232,249,0.35)" stroke-width="1.2"/>
+                  <text x="30" y="18" text-anchor="middle" fill="rgba(103,232,249,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">START</text>
+                </g>
+                <!-- END pill -->
+                <g transform="translate(1155, 141)">
+                  <rect width="48" height="28" rx="14" fill="rgba(251,146,60,0.10)" stroke="rgba(251,146,60,0.35)" stroke-width="1.2"/>
+                  <text x="24" y="18" text-anchor="middle" fill="rgba(251,146,60,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">END</text>
+                </g>
+              </svg>
             </div>
           </div>
         </div>
@@ -1234,28 +1482,72 @@
               </div>
               <div class="case-phase">
                 <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
-                <div class="result-metric glow-text-sm">0</div>
-                <p class="result-metric-label">double-sends, every email personalised at scale</p>
+                <div class="result-metric glow-text-sm">100%</div>
+                <p class="result-metric-label">every email personalised at scale</p>
               </div>
             </div>
           </div>
           <div class="media-wrap">
             <p class="media-label">Architecture</p>
-            <div class="media-carousel" data-slides="2">
-              <div class="media-slides">
-                <div class="media-slide active">
-                  <img src="materials/cold-email-excalidraw.png" alt="Cold Email high-level architecture diagram">
-                </div>
-                <div class="media-slide">
-                  <img src="materials/cold-email-n8n.png" alt="Cold Email n8n canvas workflow">
-                </div>
-              </div>
-              <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="dot active" data-idx="0" aria-label="High-level view"></button>
-                <button class="dot" data-idx="1" aria-label="n8n canvas"></button>
-              </div>
+            <div class="workflow-diagram">
+              <svg class="wf-canvas" viewBox="-85 0 1340 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cold Email workflow diagram">
+                <!-- connectors -->
+                <path class="wf-connector" d="M -18 174 L 30 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite"/></path>
+                <path class="wf-connector" d="M 230 174 L 260 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.3s"/></path>
+                <path class="wf-connector" d="M 460 174 L 490 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.6s"/></path>
+                <path class="wf-connector" d="M 730 174 L 760 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.9s"/></path>
+                <path class="wf-connector" d="M 960 174 L 990 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="1.2s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 360 130 C 360 60, 130 60, 130 130"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="0.5s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 1085 218 C 1085 320, 130 320, 130 218"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="1.5s"/></path>
+                <path class="wf-connector" d="M 1180 174 L 1198 174"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="1.5s"/></path>
+                <text x="245" y="50" text-anchor="middle" class="wf-edge-label">skip if already sent</text>
+                <text x="608" y="312" text-anchor="middle" class="wf-edge-label wf-edge-label-cool">mark sent &middot; next row</text>
+
+                <g class="wf-node" transform="translate(30, 130)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-sheets" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Sheets</text>
+                  <text x="64" y="50" class="wf-title">Load Leads</text>
+                  <text x="14" y="76" class="wf-sub">Read one lead at a time</text>
+                </g>
+                <g class="wf-node wf-decision" transform="translate(260, 130)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-gate" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">IF Node</text>
+                  <text x="64" y="50" class="wf-title">Check send status</text>
+                  <text x="14" y="76" class="wf-sub">Skip if already marked sent</text>
+                </g>
+                <g class="wf-node" transform="translate(490, 130)">
+                  <rect class="wf-node-bg" width="240" height="88" rx="14"/>
+                  <use href="#logo-claude" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Anthropic</text>
+                  <text x="64" y="50" class="wf-title"><tspan x="64" dy="0">Tailor Email from</tspan><tspan x="64" dy="16">Company Context</tspan></text>
+                </g>
+                <g class="wf-node" transform="translate(760, 130)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-n8n" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Code</text>
+                  <text x="64" y="50" class="wf-title">Parse &amp; Validate</text>
+                  <text x="14" y="76" class="wf-sub">Strip fences, fail loudly</text>
+                </g>
+                <g class="wf-node" transform="translate(990, 130)">
+                  <rect class="wf-node-bg" width="190" height="88" rx="14"/>
+                  <use href="#logo-gmail" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Gmail</text>
+                  <text x="64" y="50" class="wf-title">Send Email</text>
+                  <text x="14" y="76" class="wf-sub">API &middot; mark row sent</text>
+                </g>
+                <!-- START pill -->
+                <g transform="translate(-78, 160)">
+                  <rect width="60" height="28" rx="14" fill="rgba(103,232,249,0.10)" stroke="rgba(103,232,249,0.35)" stroke-width="1.2"/>
+                  <text x="30" y="18" text-anchor="middle" fill="rgba(103,232,249,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">START</text>
+                </g>
+                <!-- END pill -->
+                <g transform="translate(1200, 160)">
+                  <rect width="48" height="28" rx="14" fill="rgba(251,146,60,0.10)" stroke="rgba(251,146,60,0.35)" stroke-width="1.2"/>
+                  <text x="24" y="18" text-anchor="middle" fill="rgba(251,146,60,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">END</text>
+                </g>
+              </svg>
             </div>
           </div>
           <div class="dive-deeper-wrap">
@@ -1322,21 +1614,88 @@
           </div>
           <div class="media-wrap">
             <p class="media-label">Architecture</p>
-            <div class="media-carousel" data-slides="2">
-              <div class="media-slides">
-                <div class="media-slide active">
-                  <img src="materials/customer-support-excalidraw.png" alt="Customer Support high-level architecture diagram">
-                </div>
-                <div class="media-slide">
-                  <img src="materials/customer-support-n8n.png" alt="Customer Support n8n canvas workflow">
-                </div>
-              </div>
-              <button class="carousel-arrow prev" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-arrow next" aria-label="Next slide">&#8250;</button>
-              <div class="carousel-dots">
-                <button class="dot active" data-idx="0" aria-label="High-level view"></button>
-                <button class="dot" data-idx="1" aria-label="n8n canvas"></button>
-              </div>
+            <div class="workflow-diagram">
+              <svg class="wf-canvas" viewBox="-85 0 1140 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Customer Support workflow diagram">
+                <!-- connectors -->
+                <path class="wf-connector" d="M -18 214 L 30 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite"/></path>
+                <path class="wf-connector" d="M 230 104 C 250 104, 250 214, 270 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.2s"/></path>
+                <path class="wf-connector" d="M 230 214 C 250 214, 250 214, 270 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.4s"/></path>
+                <path class="wf-connector" d="M 230 324 C 250 324, 250 214, 270 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.6s"/></path>
+                <path class="wf-connector" d="M 470 214 L 510 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="0.8s"/></path>
+                <path class="wf-connector" d="M 730 214 L 760 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="1.0s"/></path>
+                <path class="wf-connector" d="M 980 214 L 998 214"><animate attributeName="stroke-opacity" values="0.28;0.55;0.28" dur="4s" repeatCount="indefinite" begin="1.2s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 620 170 C 660 120, 780 74, 820 74"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="0.8s"/></path>
+                <path class="wf-connector wf-connector-branch" d="M 370 258 C 370 290, 370 290, 370 320"><animate attributeName="stroke-opacity" values="0.32;0.6;0.32" dur="4s" repeatCount="indefinite" begin="0.5s"/></path>
+                <text x="130" y="26" text-anchor="middle" class="wf-section-label">Receive customer message</text>
+                <text x="700" y="58" text-anchor="middle" class="wf-edge-label wf-edge-label-cool">log every turn</text>
+                <text x="415" y="294" text-anchor="start" class="wf-edge-label">staff alert</text>
+
+                <g class="wf-node" transform="translate(30, 60)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-telegram" x="0" y="1" width="70" height="70"/>
+                  <text x="64" y="32" class="wf-tool-tag">Telegram</text>
+                  <text x="64" y="50" class="wf-title">Trigger</text>
+                  <text x="14" y="76" class="wf-sub">Channel adapter</text>
+                </g>
+                <g class="wf-node" transform="translate(30, 170)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-messenger" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Messenger</text>
+                  <text x="64" y="50" class="wf-title">Webhook</text>
+                  <text x="14" y="76" class="wf-sub">FB verify + msg</text>
+                </g>
+                <g class="wf-node" transform="translate(30, 280)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-web" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Web Chat</text>
+                  <text x="64" y="50" class="wf-title">Widget</text>
+                  <text x="14" y="76" class="wf-sub">Site embed</text>
+                </g>
+                <g class="wf-node wf-decision" transform="translate(270, 170)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-gate" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Regex</text>
+                  <text x="64" y="50" class="wf-title">Detect Phone</text>
+                  <text x="14" y="76" class="wf-sub">VN phone &rarr; lead</text>
+                </g>
+                <g class="wf-node" transform="translate(510, 170)">
+                  <rect class="wf-node-bg" width="220" height="88" rx="14"/>
+                  <use href="#logo-openrouter" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">LangChain &middot; OpenRouter</text>
+                  <text x="64" y="50" class="wf-title">Shared AI Agent</text>
+                  <text x="14" y="76" class="wf-sub">GPT-4o-mini &middot; session memory</text>
+                </g>
+                <g class="wf-node" transform="translate(760, 170)">
+                  <rect class="wf-node-bg" width="220" height="88" rx="14"/>
+                  <use href="#logo-n8n" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Switch</text>
+                  <text x="64" y="50" class="wf-title"><tspan x="64" dy="0">Reply to correct</tspan><tspan x="64" dy="16">channel</tspan></text>
+                </g>
+                <g class="wf-node" transform="translate(760, 30)">
+                  <rect class="wf-node-bg" width="220" height="88" rx="14"/>
+                  <use href="#logo-sheets" x="14" y="21" width="40" height="40"/>
+                  <text x="64" y="32" class="wf-tool-tag">Sheets</text>
+                  <text x="64" y="50" class="wf-title">Audit Log</text>
+                  <text x="14" y="76" class="wf-sub">Hashed sender ID</text>
+                </g>
+                <g class="wf-node wf-decision" transform="translate(270, 320)">
+                  <rect class="wf-node-bg" width="200" height="88" rx="14"/>
+                  <use href="#logo-telegram" x="0" y="1" width="70" height="70"/>
+                  <text x="64" y="32" class="wf-tool-tag">Telegram</text>
+                  <text x="64" y="50" class="wf-title">Staff Alert</text>
+                  <text x="14" y="76" class="wf-sub">Lead captured &middot; errors</text>
+                </g>
+                <!-- START pill -->
+                <g transform="translate(-78, 200)">
+                  <rect width="60" height="28" rx="14" fill="rgba(103,232,249,0.10)" stroke="rgba(103,232,249,0.35)" stroke-width="1.2"/>
+                  <text x="30" y="18" text-anchor="middle" fill="rgba(103,232,249,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">START</text>
+                </g>
+                <!-- END pill -->
+                <g transform="translate(1000, 200)">
+                  <rect width="48" height="28" rx="14" fill="rgba(251,146,60,0.10)" stroke="rgba(251,146,60,0.35)" stroke-width="1.2"/>
+                  <text x="24" y="18" text-anchor="middle" fill="rgba(251,146,60,0.8)" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.1em">END</text>
+                </g>
+              </svg>
             </div>
           </div>
           <div class="dive-deeper-wrap">
@@ -1706,6 +2065,44 @@
         requestAnimationFrame(updateFill);
       }, { passive: true });
       updateFill();
+    })();
+
+    // Traveling data particles on workflow connectors
+    (function() {
+      const SVG_NS = 'http://www.w3.org/2000/svg';
+      document.querySelectorAll('.wf-canvas').forEach(canvas => {
+        const connectors = canvas.querySelectorAll('.wf-connector');
+        connectors.forEach((conn, i) => {
+          const isBranch = conn.classList.contains('wf-connector-branch');
+          const circle = document.createElementNS(SVG_NS, 'circle');
+          circle.classList.add('wf-particle');
+          if (isBranch) circle.classList.add('wf-particle-branch');
+          circle.setAttribute('r', '2.5');
+          canvas.appendChild(circle);
+
+          const dur = 2.8 + Math.random() * 1.2;
+          const delay = i * 0.6 + Math.random() * 0.8;
+          const pathLen = conn.getTotalLength();
+
+          function animate() {
+            const start = performance.now() + delay * 1000;
+            function tick(now) {
+              const elapsed = (now - start) / 1000;
+              if (elapsed < 0) { requestAnimationFrame(tick); return; }
+              const t = (elapsed % dur) / dur;
+              const pt = conn.getPointAtLength(t * pathLen);
+              circle.setAttribute('cx', pt.x);
+              circle.setAttribute('cy', pt.y);
+              // Fade in at start, fade out at end
+              const fade = t < 0.15 ? t / 0.15 : t > 0.85 ? (1 - t) / 0.15 : 1;
+              circle.setAttribute('opacity', (fade * 0.75).toFixed(2));
+              requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+          }
+          animate();
+        });
+      });
     })();
 
   </script>
