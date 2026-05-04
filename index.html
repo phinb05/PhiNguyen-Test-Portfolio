@@ -1591,24 +1591,24 @@
           <div style="padding:1.5rem 1.5rem 0;">
             <div class="flex items-center gap-3">
               <span class="status-badge status-built">Built</span>
-              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">n8n + LangChain + OpenRouter</span>
+              <span class="text-xs font-mono" style="color:rgba(255,255,255,0.3);">Trigger.dev · Supabase · OpenRouter</span>
             </div>
-            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Multi-Channel Customer Support Bot</h3>
+            <h3 class="text-xl md:text-2xl font-bold text-white mt-2 tracking-tight">Multi-Tenant AI Support Bot</h3>
           </div>
           <div class="case-body">
             <div class="case-phases">
               <div class="case-phase">
                 <p class="case-phase-label" style="color:rgba(251,146,60,0.7);">The Pain</p>
-                <p class="case-phase-text">A Vietnamese preschool couldn't staff live chat on Messenger, Telegram, and the website widget at once. Every minute of delay was a parent drifting to a competitor.</p>
+                <p class="case-phase-text">A Vietnamese kindergarten couldn't staff live chat on Facebook Messenger around the clock. Every minute of delay was a parent drifting to a competitor.</p>
               </div>
               <div class="case-phase">
                 <p class="case-phase-label" style="color:rgba(147,197,253,0.7);">The Build</p>
-                <p class="case-phase-text">One LangChain agent (GPT-4o-mini via OpenRouter) sits behind three channel adapters. Shared knowledge base, per-session memory, Vietnamese phone regex for automatic lead capture.</p>
+                <p class="case-phase-text">Built v1 on n8n to validate the idea. When it held up, rewrote v2 in TypeScript on Trigger.dev — Supabase persistence, per-client configs, phone-lead capture with Telegram staff alerts, Vietnamese tone post-processing.</p>
               </div>
               <div class="case-phase">
                 <p class="case-phase-label" style="color:rgba(134,239,172,0.7);">The Result</p>
-                <div class="result-metric" style="color:#67e8f9;">3-in-1</div>
-                <p class="result-metric-label">live channels, one source of truth, deployed to a real client</p>
+                <div class="result-metric" style="color:#67e8f9;">Live</div>
+                <p class="result-metric-label">deployed for a Vietnamese kindergarten — new clients onboarded via DB row, no redeploy</p>
               </div>
             </div>
           </div>
@@ -1705,32 +1705,29 @@
             </button>
             <div id="dive-support" class="dive-deeper-content" hidden>
               <div class="dive-deeper-section">
-                <h4>One brain, three faces</h4>
-                <p>A single n8n workflow runs <strong>one shared AI agent</strong> behind <strong>three channel adapters</strong>. Knowledge, tone rules, and escalation logic live in exactly one place. Adding a channel means adding an adapter — not rebuilding the whole thing.</p>
+                <h4>v1 → v2: When the prototype had to grow up</h4>
+                <p>The first version ran on n8n — a 40-node no-code workflow. It proved the concept: AI answers questions, captures phone leads, alerts staff. But n8n hit its ceiling fast. Adding a second client meant cloning the entire workflow and manually keeping configs in sync. Error handling was brittle. No real database.</p>
+                <p>v2 is a full TypeScript rewrite on Trigger.dev v3. One codebase serves all clients. Client configs — system prompt, Telegram channel, knowledge base — live in Supabase and load at runtime. Tasks run serverless: horizontally scalable, no cold-start on webhooks.</p>
+              </div>
+              <div class="dive-deeper-section">
+                <h4>Lead capture + Telegram alerts</h4>
+                <p>Every incoming message runs through a Vietnamese phone regex (<code>0[35789]\d{8}</code>). When a parent shares a number:</p>
                 <ul>
-                  <li><strong>AI Consultant agent</strong> — LangChain Agent + GPT-4o-mini carrying the full Vietnamese knowledge base for Sakuranbo Kindergarten: pricing tiers by age, schedules, admission, meals, discipline, extracurriculars, transport, dietary rules. System prompt locks tone (Vietnamese honorifics, "nhà trường", "anh/chị"; no casual pronouns) and factual boundaries (never invent prices — defer to staff when unsure).</li>
-                  <li><strong>Telegram adapter</strong> — Telegram Trigger → Extract Content → Detect Phone → route.</li>
-                  <li><strong>Facebook Messenger adapter</strong> — FB webhook (Verify + Message) → Extract FB Data → Get FB Profile → Detect Phone → route.</li>
-                  <li><strong>Website chat adapter</strong> — Web Chat Trigger → Web Detect Phone → route.</li>
-                  <li><strong>Per-session memory</strong> — LangChain Buffer Window memory keyed by sender ID, so each parent's thread is isolated.</li>
+                  <li>The system confirms consent</li>
+                  <li>Logs the lead to Supabase</li>
+                  <li>Fires a formatted Telegram alert to the client's staff channel — name, number, and conversation context</li>
                 </ul>
+                <p>The AI is also prompted to proactively ask for a number after two exchanges or on intent signals ("how do I register", "when can my child start"). Passive chat traffic becomes a qualified lead pipeline without manual triage.</p>
               </div>
               <div class="dive-deeper-section">
-                <h4>Automatic lead capture</h4>
-                <p>A Vietnamese phone regex (<code>0[35789]\d{8}</code>) runs on every incoming message. When a parent shares a number, the message is flagged, logged, and a <strong>separate Telegram notification fires to the staff's internal channel</strong> with name and phone. The agent is prompted to proactively ask for a number after two or three exchanges or on intent signals ("how do I register", "when can my child start"). Passive chat traffic becomes qualified leads without any manual triage.</p>
+                <h4>Vietnamese language tuning</h4>
+                <p>GPT-4o-mini defaults to generic Vietnamese pronouns ("tôi", "chúng tôi"). Schools communicate differently — staff refer to themselves as "nhà trường" (the school), not "tôi" (I). A post-processing step replaces these after every LLM response, before the message is sent.</p>
+                <p>The system prompt also locks tone: Vietnamese honorifics, no casual language, and a hard factual boundary — never invent prices, always defer to staff when unsure.</p>
               </div>
               <div class="dive-deeper-section">
-                <h4>Production details that usually get skipped</h4>
-                <ul>
-                  <li><strong>Prompt injection defense.</strong> A "TUYỆT MẬT" section in the system prompt refuses to reveal its own contents, blocks roleplay attacks ("pretend you are X", "ignore previous instructions"), and refuses internals questions — routing back to a safe canned response.</li>
-                  <li><strong>PII hashing.</strong> Sender IDs are SHA-256 hashed before being written to the log, so analytics stays useful without a direct identifier back to individual users.</li>
-                  <li><strong>Unified logging.</strong> All three channels write to the same Google Sheet with timestamp, hashed sender, question, response, and channel — so conversation history is searchable in one place.</li>
-                  <li><strong>Error trigger + staff alerting.</strong> A dedicated Error Trigger catches any failure and fires a Telegram alert with failing node, error message, and execution ID. Silent failures are the worst class of bug in customer-facing automation.</li>
-                </ul>
-              </div>
-              <div class="dive-deeper-section">
-                <h4>The decision worth calling out</h4>
-                <p>The "one brain, three faces" split is what makes this maintainable. When the school raises a fee, I update one number in one system prompt and all three channels are immediately accurate. When Messenger breaks its webhook format, I patch one adapter and the other two surfaces keep running. Shared intelligence, isolated plumbing — that separation is the single most important thing this project taught me.</p>
+                <h4>Multi-tenant by design</h4>
+                <p>Adding a new client is one database row and a Facebook webhook subscription. No code changes. No redeploy. Each client gets their own system prompt, Telegram staff channel, isolated conversation history (keyed by sender ID), and rate limits — all configured from the <code>clients</code> table in Supabase.</p>
+                <p>The architecture was built from day one to run as a shared stack. Economics improve with each deployment.</p>
               </div>
             </div>
           </div>
